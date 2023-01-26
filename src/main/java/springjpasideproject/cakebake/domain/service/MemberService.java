@@ -1,10 +1,10 @@
-package springjpasideproject.cakebake.service;
+package springjpasideproject.cakebake.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springjpasideproject.cakebake.Member;
-import springjpasideproject.cakebake.repository.MemberRepository;
+import springjpasideproject.cakebake.domain.Member;
+import springjpasideproject.cakebake.domain.repository.MemberRepository;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package springjpasideproject.cakebake.service;
+package springjpasideproject.cakebake.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springjpasideproject.cakebake.Product;
-import springjpasideproject.cakebake.repository.ProductRepository;
+import springjpasideproject.cakebake.domain.Product;
+import springjpasideproject.cakebake.domain.repository.ProductRepository;
 
 import java.util.List;
 
@@ -18,6 +18,15 @@ public class ProductService {
     @Transactional
     public void saveProduct(Product product) {
         productRepository.save(product);
+    }
+
+    @Transactional
+    public void updateItem(Long itemId, String name, String ingredient, String image, int price) {
+        Product product = productRepository.findOne(itemId);
+        product.setName(name);
+        product.setIngredient(ingredient);
+        product.setImage(image);
+        product.setPrice(price);
     }
 
     public List<Product> findProducts() {

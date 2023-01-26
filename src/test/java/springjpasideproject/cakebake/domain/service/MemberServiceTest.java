@@ -1,4 +1,4 @@
-package springjpasideproject.cakebake.service;
+package springjpasideproject.cakebake.domain.service;
 
 import jakarta.persistence.EntityManager;
 import org.junit.Test;
@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import springjpasideproject.cakebake.Member;
-import springjpasideproject.cakebake.repository.MemberRepository;
+import springjpasideproject.cakebake.domain.Member;
+import springjpasideproject.cakebake.domain.repository.MemberRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;

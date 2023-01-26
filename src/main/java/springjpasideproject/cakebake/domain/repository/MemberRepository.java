@@ -1,10 +1,10 @@
-package springjpasideproject.cakebake.repository;
+package springjpasideproject.cakebake.domain.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import springjpasideproject.cakebake.Member;
+import springjpasideproject.cakebake.domain.Member;
 
 import java.util.List;
 

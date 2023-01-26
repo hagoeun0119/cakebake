@@ -1,4 +1,4 @@
-package springjpasideproject.cakebake;
+package springjpasideproject.cakebake.domain;
 
 public enum DeliveryStatus {
 

@@ -1,4 +1,4 @@
-package springjpasideproject.cakebake;
+package springjpasideproject.cakebake.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
