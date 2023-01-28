@@ -61,6 +61,10 @@ header::selection {
     z-index: 99;
 }
 
+#main_image {
+    margin: auto;
+}
+
 /* Custom page footer */
 .footer {
     text-align: center;

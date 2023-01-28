@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="fragments/header :: header">
+  <a href="/"><p class="text-dark">Shop</p></a>
+</header>
+<body>
+<div class="container">
+  <div>
+    <nav th:replace="fragments/nav :: nav"></nav>
+  </div>
+
+  <form th:object="${form}" method="post">
+    <!-- id -->
+    <input type="hidden" th:field="*{id}" />
+    <div class="form-group">
+      <label th:for="name">상품명</label>
+      <input type="text" th:field="*{name}" class="form-control" placeholder="name" />
+    </div>
+    <div class="form-group">
+      <label th:for="ingredient">영양 성분</label>
+      <input type="number" th:field="*{ingredient}" class="form-control" placeholder="price" />
+    </div>
+    <div class="form-group">
+      <label th:for="image">사진</label>
+      <input type="number" th:field="*{image}" class="form-control" placeholder="image" />
+    </div>
+    <div class="form-group">
+      <label th:for="price">가격</label>
+      <input type="text" th:field="*{price}" class="form-control" placeholder="price" />
+    </div>
+    <div class="form-group">
+      <label th:for="stockQuantity">수량</label>
+      <input type="text" th:field="*{stockQuantity}" class="form-control" placeholder="stock quantity">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

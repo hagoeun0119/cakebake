@@ -21,12 +21,13 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateItem(Long itemId, String name, String ingredient, String image, int price) {
+    public void updateItem(Long itemId, String name, String ingredient, String image, int price, int stockQuantity) {
         Product product = productRepository.findOne(itemId);
         product.setName(name);
         product.setIngredient(ingredient);
         product.setImage(image);
         product.setPrice(price);
+        product.setStockQuantity(stockQuantity);
     }
 
     public List<Product> findProducts() {
