@@ -1,0 +1,114 @@
+/* Space out content a bit */
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none
+}
+
+body {
+    padding-top: 40px;
+    padding-bottom: 24px;
+    font-family: 'Montserrat','Noto Sans KR',sans-serif;
+}
+
+/* Custom page header */
+header p {
+    letter-spacing: -.04em;
+    margin: 0;
+    text-align: center;
+    font: bold 48px/48px 'Frank Ruhl Libre', serif !important;
+    color: black;
+}
+
+header::selection {
+    color: #fff;
+    background: rgba(49,96,168,1);
+}
+
+/* Custom page nav */
+.navbar-nav {
+    padding: 20px 0;
+}
+
+.navbar-nav a {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Custom page sidebar */
+.sidebar-side li {
+    display: block;
+    line-height: 24px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    text-decoration: none;
+}
+
+.sidebar-side {
+    position: fixed;
+    top: 50%;
+    right: 24px;
+    text-align: right;
+    transform: translateY(-50%);
+    z-index: 99;
+}
+
+/* Custom page footer */
+.footer {
+    text-align: center;
+    padding-top: 19px;
+    color: #777;
+}
+
+
+/*!* Customize container *!*/
+/*@media (min-width: 768px) {*/
+/*    .container {*/
+/*        max-width: 730px;*/
+/*    }*/
+/*}*/
+/*.container-narrow > hr {*/
+/*    margin: 30px 0;*/
+/*}*/
+/*!* Main marketing message and sign up button *!*/
+/*.jumbotron {*/
+/*    text-align: center;*/
+/*    border-bottom: 1px solid #e5e5e5;*/
+/*}*/
+/*.jumbotron .btn {*/
+/*    font-size: 21px;*/
+/*    padding: 14px 24px;*/
+/*}*/
+/*!* Supporting marketing content *!*/
+/*.marketing {*/
+/*    margin: 40px 0;*/
+/*}*/
+/*.marketing p + h4 {*/
+/*    margin-top: 28px;*/
+/*}*/
+/*!* Responsive: Portrait tablets and up *!*/
+/*@media screen and (min-width: 768px) {*/
+/*    !* Remove the padding we set earlier *!*/
+/*    .header,*/
+/*    .marketing,*/
+/*    .footer {*/
+/*        padding-left: 0;*/
+/*        padding-right: 0;*/
+/*    }*/
+/*    !* Space out the masthead *!*/
+/*    .header {*/
+/*        margin-bottom: 30px;*/
+/*    }*/
+/*    !* Remove the bottom border on the jumbotron for visual effect *!*/
+/*    .jumbotron {*/
+/*        border-bottom: 0;*/
+/*    }*/
+/*}*/
