@@ -9,12 +9,12 @@ ul, ol {
 }
 
 a {
-    text-decoration: none
+    text-decoration: none;
+    color: black;
 }
 
 body {
     padding-top: 40px;
-    padding-bottom: 24px;
     font-family: 'Montserrat','Noto Sans KR',sans-serif;
 }
 
@@ -27,9 +27,10 @@ header p {
     color: black;
 }
 
-header::selection {
-    color: #fff;
-    background: rgba(49,96,168,1);
+.container{
+    height : auto;
+    min-height: 100%;
+    padding-bottom: 40px;
 }
 
 /* Custom page nav */
@@ -43,15 +44,6 @@ header::selection {
 }
 
 /* Custom page sidebar */
-.sidebar-side li {
-    display: block;
-    line-height: 24px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: -.02em;
-    text-decoration: none;
-}
-
 .sidebar-side {
     position: fixed;
     top: 50%;
@@ -61,15 +53,75 @@ header::selection {
     z-index: 99;
 }
 
+.sidebar-side li {
+    display: block;
+    line-height: 24px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    text-decoration: none;
+}
+
+/* Custom page footer */
+footer {
+    font: 500 12px/18px 'Montserrat', sans-serif !important;
+    text-align: center;
+    padding-top: 50px;
+    height: 60px;
+    position : relative;
+    transform : translateY(-100%);
+}
+
+/*----- main page -----*/
 #main_image {
     margin: auto;
 }
 
-/* Custom page footer */
-.footer {
+/*----- Custom form -----*/
+form {
+    margin-top: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+}
+
+.form-group .btn {
+    margin-top: 15px;
+}
+
+/*----- product-list -----*/
+#product-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 50px;
+}
+
+.thumbnail {
+    display: block;
+    background-color: white;
     text-align: center;
-    padding-top: 19px;
-    color: #777;
+}
+
+.thumbnail img {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.thumbnail #product_name {
+    font: 700 12px/18px 'Montserrat', sans-serif;
+    margin-bottom: 10px;
+}
+
+.thumbnail p {
+    font: normal 11px/18px 'Montserrat', sans-serif;
+    margin-bottom: 5px;
+    letter-spacing: .13em;
 }
 
 

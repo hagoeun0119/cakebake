@@ -1,41 +1,43 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+	<!-- Bootstrap -->
+	<link href="/css/main.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com" rel="preconnect">
+	<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@900&family=Montserrat:wght@500&family=Noto+Sans+KR:wght@100;300&display=swap"
+		rel="stylesheet">
+
+</head>
 <header th:replace="fragments/header :: header">
-  <a href="/"><p class="text-dark">Shop</p></a>
+	<a href="/"><p class="text-dark">Shop</p></a>
 </header>
 <body>
 <div class="container">
-  <div>
-    <nav th:replace="fragments/nav :: nav"></nav>
-  </div>
-
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>상품명</th>
-        <th>재료</th>
-        <th>사진</th>
-        <th>가격</th>
-        <th>재고 수량</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="product : ${products}">
-        <td th:text="${product.id}"></td>
-        <td th:text="${product.name}"></td>
-        <td th:text="${product.ingredient}"></td>
-        <td th:text="${product.image}"></td>
-        <td th:text="${product.price}"></td>
-        <td th:text="${product.stockQuantity}"></td>
-        <td>
-          <a href="#" th:href="@{/products/{id}/edit (id=${product.id})}" class="btn btn-primary" role="button">수정</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div th:replace="fragments/footer :: footer"/>
+	<div>
+		<nav th:replace="fragments/nav :: nav"></nav>
+	</div>
+	<div id="product-list">
+		<div class="thumbnail" th:each="product : ${products}">
+			<a href="#" th:href="@{/products/{id}/edit (id=${product.id})}">
+				<img th:alt="${product.name}" th:src="${product.image}">
+				<p id="product_name" th:text="${product.name}"></p>
+				<p th:text="${product.price}"></p>
+				<p th:text="${product.id}"></p>
+				<p th:text="${product.ingredient}"></p>
+				<p th:text="${product.stockQuantity}"></p>
+				<a class="btn btn-primary" href="#" role="button"
+					 th:href="@{/products/{id}/edit (id=${product.id})}">edit</a>
+			</a>
+		</div>
+	</div>
+	<div th:replace="fragments/sidebar :: side"></div>
 </div>
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

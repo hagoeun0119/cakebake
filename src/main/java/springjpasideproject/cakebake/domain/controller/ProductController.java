@@ -18,6 +18,9 @@ public class ProductController {
 
     private final ProductService productService;
 
+    /**
+     * 제품 생성
+     */
     @GetMapping("/products/new")
     public String createForm(Model model) {
         model.addAttribute("form", new ProductForm());
@@ -36,6 +39,9 @@ public class ProductController {
         return "redirect:/products";
     }
 
+    /**
+     * 제품 리스트
+     */
     @GetMapping("/products")
     public String list(Model model) {
         List<Product> products = productService.findProducts();
@@ -43,6 +49,9 @@ public class ProductController {
         return "products/productList";
     }
 
+    /**
+     * 제품 수정
+     */
     @GetMapping("products/{productId}/edit")
     public String updateProductForm(@PathVariable("productId") Long productId, Model model) {
         Product changeProduct = (Product) productService.findOne(productId);
