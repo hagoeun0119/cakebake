@@ -13,4 +13,5 @@ public class ProductForm {
     private int price;
     private int stockQuantity;
 
+    private String category;
 }

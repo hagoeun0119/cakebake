@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import springjpasideproject.cakebake.domain.Category;
 import springjpasideproject.cakebake.domain.Product;
 import springjpasideproject.cakebake.domain.service.ProductService;
 
@@ -29,12 +30,20 @@ public class ProductController {
 
     @PostMapping("/products/new")
     public String create(ProductForm form) {
+
+        // Set Category
+        Category category = new Category();
+        category.setName(form.getCategory());
+
         Product product = new Product();
         product.setName(form.getName());
         product.setIngredient(form.getIngredient());
         product.setImage(form.getImage());
         product.setPrice(form.getPrice());
         product.setStockQuantity(form.getStockQuantity());
+
+        product.setCategory(category);
+
         productService.saveProduct(product);
         return "redirect:/products";
     }

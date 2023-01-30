@@ -62,6 +62,10 @@ header p {
     text-decoration: none;
 }
 
+.sidebar-side a:hover {
+    color: gray;
+}
+
 /* Custom page footer */
 footer {
     font: 500 12px/18px 'Montserrat', sans-serif !important;
@@ -92,6 +96,10 @@ form {
 
 .form-group .btn {
     margin-top: 15px;
+}
+
+button {
+    font: 700 12px/18px 'Montserrat', sans-serif;
 }
 
 /*----- product-list -----*/
