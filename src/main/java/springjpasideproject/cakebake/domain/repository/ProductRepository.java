@@ -25,9 +25,15 @@ public class ProductRepository {
         return em.find(Product.class, id);
     }
 
+    /**
+     * find product by category
+     */
     public List<Product> findByCategory(String category) {
-        return em.createQuery("select p from Product p where p.category = :category", Product.class)
-            .getResultList();}
+        String findQuery = "select p from Product as p INNER JOIN p.category c WHERE c.name = :category";
+        return em.createQuery(findQuery, Product.class)
+                .setParameter("category", category)
+                .getResultList();
+    }
 
     public List<Product> findAll() {
         return em.createQuery("select p from Product p", Product.class)

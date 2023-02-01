@@ -112,7 +112,7 @@ button {
 }
 
 /*----- product-list -----*/
-#product-list {
+#product-list, #category-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 15px;
