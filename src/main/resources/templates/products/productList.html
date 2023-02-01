@@ -22,22 +22,34 @@
 	<div>
 		<nav th:replace="fragments/nav :: nav"></nav>
 	</div>
-	<div id="product-list">
-		<div class="thumbnail" th:each="product : ${products}">
-			<a href="#" th:href="@{/products/{id}/edit (id=${product.id})}">
-				<img th:alt="${product.name}" th:src="${product.image}">
-				<p id="product_name" th:text="${product.name}"></p>
-				<p th:text="${product.price}"></p>
-				<p th:text="${product.id}"></p>
-				<p th:text="${product.ingredient}"></p>
-				<p th:text="${product.stockQuantity}"></p>
-				<a class="btn btn-primary" href="#" role="button"
-					 th:href="@{/products/{id}/edit (id=${product.id})}">edit</a>
-			</a>
-		</div>
-	</div>
-	<div th:replace="fragments/sidebar :: side"></div>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th>상품명</th>
+			<th>가격</th>
+			<th>재료</th>
+			<th>재고수량</th>
+			<th>카테고리</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="product : ${products}">
+			<td th:text="${product.id}">
+			<td th:text="${product.name}"></td>
+			<td th:text="${product.price}"></td>
+			<td th:text="${product.ingredient}"></td>
+			<td th:text="${product.stockQuantity}"></td>
+			<td th:text="${product.category.name}"></td>
+			<td>
+				<div class="middle-box"><button class="btn btn-lg" type="submit">CHANGE</button></div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
 </div>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
+
+

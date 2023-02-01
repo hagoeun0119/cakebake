@@ -111,6 +111,10 @@ button {
     margin-top: 20px;
 }
 
+.table button {
+    margin: 0;
+}
+
 /*----- product-list -----*/
 #product-list, #category-list {
     display: grid;
