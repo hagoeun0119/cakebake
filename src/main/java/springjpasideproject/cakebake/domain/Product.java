@@ -20,7 +20,7 @@ public class Product {
     private int price;
     private int stockQuantity;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 

@@ -58,6 +58,13 @@ public class ProductController {
         return "products/productList";
     }
 
+    @GetMapping("/category/{category}")
+    public String listByCategory(@PathVariable("category") String category, Model model) {
+        List<Product> products = productService.findByCategory(category);
+        model.addAttribute("products", products);
+        return "category/productListByCategory";
+    }
+
     /**
      * 제품 수정
      */

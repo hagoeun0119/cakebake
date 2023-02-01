@@ -25,6 +25,10 @@ public class ProductRepository {
         return em.find(Product.class, id);
     }
 
+    public List<Product> findByCategory(String category) {
+        return em.createQuery("select p from Product p where p.category = :category", Product.class)
+            .getResultList();}
+
     public List<Product> findAll() {
         return em.createQuery("select p from Product p", Product.class)
                 .getResultList();
