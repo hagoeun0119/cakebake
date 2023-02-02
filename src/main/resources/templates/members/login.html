@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+	<!-- Bootstrap -->
+	<link href="/css/main.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com" rel="preconnect">
+	<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@900&family=Montserrat:wght@500;600&family=Noto+Sans+KR:wght@100;300&display=swap"
+		rel="stylesheet">
+
+</head>
+<header th:replace="fragments/header :: header">
+	<a href="/"><p class="text-dark">Shop</p></a>
+</header>
+<body>
+<div class="container">
+	<div>
+		<nav th:replace="fragments/nav :: nav"></nav>
+	</div>
+	<section class="login">
+		<h3>Log-in</h3>
+		<form action="/order" method="post" role="form">
+			<div class="form-group">
+				<input class="login-form-control" placeholder="ID" type="text">
+			</div>
+			<div class="form-group">
+				<input class="login-form-control" placeholder="PASSWORD" type="text">
+			</div>
+			<ul class="log-info">
+			<li>
+        <a href="/#">FORGOT ID</a>
+			</li>
+			<li>
+        <a href="/#">FORGOT PASSWORD</a>
+			</li>
+			</ul>
+			<div class="middle-box">
+				<button class="log-btn btn-lg" type="submit">Log-in</button>
+				<button class="register-btn btn-lg" type="submit">Register</button>
+			</div>
+		</form>
+	</section>
+
+	</div>
+	<br/>
+	<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

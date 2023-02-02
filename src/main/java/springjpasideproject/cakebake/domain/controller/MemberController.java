@@ -49,5 +49,13 @@ public class MemberController {
         return "members/memberList";
     }
 
+    /**
+     * 로그인 기능 구현
+     */
+    @GetMapping("/member/login")
+    public String login(Model model) {
+        return "members/login";
+    }
+
 
 }
