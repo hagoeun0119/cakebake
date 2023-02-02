@@ -13,6 +13,10 @@ a {
     color: black;
 }
 
+a:hover {
+    color: black;
+}
+
 body {
     padding-top: 40px;
     font-family: 'Montserrat','Noto Sans KR',sans-serif;
@@ -100,9 +104,10 @@ form {
 
 .middle-box {
     text-align: center;
+    margin: auto;
 }
 
-button {
+.submit-btn {
     font: 600 13px/18px 'Montserrat', sans-serif !important;
     letter-spacing: 0.130em;
     border: 1px solid rgb(51, 51, 51) !important;
@@ -143,6 +148,73 @@ button {
     font: normal 11px/18px 'Montserrat', sans-serif;
     margin-bottom: 5px;
     letter-spacing: .13em;
+}
+
+/*----- login-page -----*/
+
+.login {
+    text-align: center;
+    padding-top: 5%;
+    margin: auto;
+    width: 26%;
+}
+
+.login h3 {
+    margin: 0 0 28px;
+    letter-spacing: -.04em;
+    font: 600 30px 'Montserrat', sans-serif !important;
+}
+
+.log-info li {
+    display: inline-block;
+    margin-right: 14px;
+    line-height: 18px;
+    font-size: 11px;
+    letter-spacing: .04em;
+}
+
+.login-form-control {
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    padding: 1% 1% 1% 3%;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    border-radius: 30px;
+    font-size: 11px;
+    background: #ffffff;
+}
+
+.log-btn {
+    height: 58px;
+    line-height: 58px;
+    font: normal 23px/18px 'Montserrat', sans-serif;
+    color: #ffffff;
+    background: black;
+    margin-bottom: 10px;
+}
+
+.register-btn {
+    height: 40px;
+    line-height: 40px;
+    font: normal 18px/18px 'Montserrat', sans-serif;
+    background: #ffffff;
+}
+
+.log-btn:hover {
+    color: black;
+    border: 1px solid black;
+    background: #ffffff;
+}
+
+.log-btn, .register-btn {
+    display: block;
+    width: 100%;
+    letter-spacing: -.04em;
+    border: 1px solid black;
+    border-radius: 30px;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 
