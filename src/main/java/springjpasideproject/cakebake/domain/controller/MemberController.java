@@ -2,6 +2,7 @@ package springjpasideproject.cakebake.domain.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -27,7 +29,7 @@ public class MemberController {
     @PostMapping("/member/join")
     public String create(@Valid MemberForm form, BindingResult result) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return "members/createMemberForm";
         }
 
@@ -53,9 +55,26 @@ public class MemberController {
      * 로그인 기능 구현
      */
     @GetMapping("/member/login")
-    public String login(Model model) {
+    public String loginForm(Model model) {
+        model.addAttribute("loginForm", new LoginForm());
         return "members/login";
     }
 
+    @PostMapping("/member/login")
+    public String login(@Valid LoginForm form, BindingResult result) {
 
+        log.info(form.getUserId(), form.getPassword());
+
+
+        if (result.hasErrors()) {
+            return "members/login";
+        }
+
+        if (memberService.findByUserId(form.getUserId(), form.getPassword())) {
+            return "redirect:/";
+        }
+
+        return "members/login";
+
+    }
 }
