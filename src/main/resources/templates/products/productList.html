@@ -42,7 +42,11 @@
 			<td th:text="${product.stockQuantity}"></td>
 			<td th:text="${product.category.name}"></td>
 			<td>
-				<div class="middle-box"><button class="submit-btn btn-lg" type="submit">CHANGE</button></div>
+				<div class="middle-box"><a href="#"
+																	 th:href="@{{category}/{id}/edit (id=${product.id}, category=${product.category})}">
+					<button class="submit-btn btn-lg" type="submit">CHANGE
+					</button></a>
+				</div>
 			</td>
 		</tr>
 		</tbody>

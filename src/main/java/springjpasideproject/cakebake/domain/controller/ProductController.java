@@ -68,8 +68,8 @@ public class ProductController {
     /**
      * 제품 수정
      */
-    @GetMapping("products/{productId}/edit")
-    public String updateProductForm(@PathVariable("productId") Long productId, Model model) {
+    @GetMapping("/{category}/{productId}/edit")
+    public String updateProductForm(@PathVariable("category") String category, @PathVariable("productId") Long productId, Model model) {
         Product changeProduct = (Product) productService.findOne(productId);
         ProductForm form = new ProductForm();
         form.setName(changeProduct.getName());
@@ -81,8 +81,8 @@ public class ProductController {
         return "products/updateProductForm";
     }
 
-    @PostMapping("products/{productId}/edit")
-    public String updateProductForm(@PathVariable Long productId, @ModelAttribute("form") ProductForm form) {
+    @PostMapping("/{category}/{productId}/edit")
+    public String updateProductForm(@PathVariable("category") String category, @PathVariable Long productId, @ModelAttribute("form") ProductForm form) {
         productService.updateItem(productId, form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity());
         return "redirect:/products";
     }
