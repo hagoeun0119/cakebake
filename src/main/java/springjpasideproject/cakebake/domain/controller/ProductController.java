@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import springjpasideproject.cakebake.domain.Category;
 import springjpasideproject.cakebake.domain.Product;
+import springjpasideproject.cakebake.domain.service.CategoryService;
 import springjpasideproject.cakebake.domain.service.ProductService;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     /**
      * 제품 생성
@@ -68,22 +70,26 @@ public class ProductController {
     /**
      * 제품 수정
      */
-    @GetMapping("/{category}/{productId}/edit")
-    public String updateProductForm(@PathVariable("category") String category, @PathVariable("productId") Long productId, Model model) {
+    @GetMapping("/products/{productId}/edit")
+    public String updateProductForm(@PathVariable("productId") Long productId, Model model) {
+
         Product changeProduct = (Product) productService.findOne(productId);
+
         ProductForm form = new ProductForm();
         form.setName(changeProduct.getName());
         form.setIngredient(changeProduct.getIngredient());
         form.setImage(changeProduct.getImage());
         form.setPrice(changeProduct.getPrice());
         form.setStockQuantity(changeProduct.getStockQuantity());
+        form.setCategory(changeProduct.getCategory().getName());
+
         model.addAttribute("form", form);
         return "products/updateProductForm";
     }
 
-    @PostMapping("/{category}/{productId}/edit")
-    public String updateProductForm(@PathVariable("category") String category, @PathVariable Long productId, @ModelAttribute("form") ProductForm form) {
-        productService.updateItem(productId, form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity());
+    @PostMapping("/products/{productId}/edit")
+    public String updateProductForm(@PathVariable Long productId, @ModelAttribute("form") ProductForm form) {
+        productService.updateItem(productId, form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity(), form.getCategory());
         return "redirect:/products";
     }
 
