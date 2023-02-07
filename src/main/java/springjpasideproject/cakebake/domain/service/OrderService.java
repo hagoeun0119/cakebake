@@ -18,6 +18,17 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
 
+    /**
+     * 단일 상품 주문
+     */
+    @Transactional
+    public void orderSingleProduct(Long productId, int count) {
+
+        Product product = productRepository.findOne(productId);
+        OrderProduct orderProduct = OrderProduct.createOrderProduct(product, product.getPrice(), count);
+
+    }
+
     @Transactional
     public Long order(Long memberId, Long productId, int count, String receiver, String phone, String email, String comment) {
 

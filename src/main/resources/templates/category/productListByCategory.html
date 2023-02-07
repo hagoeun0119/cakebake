@@ -24,7 +24,7 @@
   </div>
   <div id="category-list">
     <div class="thumbnail" th:each="product : ${products}">
-      <a th:href="@{category/{category} (category=${product.category})}">
+      <a th:href="@{/product/{name}/{productId}/category/{category}/{categoryId} (name=${product.name}, productId=${product.id}, category=${product.category.name}, categoryId=${product.category.id})}">
         <img th:alt="${product.name}" th:src="${product.image}">
         <p id="product_name" th:text="${product.name}"></p>
         <p th:text="|KRW ${product.price}|"></p>

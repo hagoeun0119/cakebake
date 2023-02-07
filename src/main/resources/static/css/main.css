@@ -186,7 +186,7 @@ form {
     background: #ffffff;
 }
 
-.log-btn {
+.login-btn {
     height: 58px;
     line-height: 58px;
     font: normal 23px/18px 'Montserrat', sans-serif;
@@ -208,7 +208,7 @@ form {
     background: #ffffff;
 }
 
-.log-btn, .register-btn {
+.login-btn, .register-btn {
     display: block;
     width: 100%;
     letter-spacing: -.04em;
@@ -223,6 +223,32 @@ form {
     font-size: 12px;
     margin-top: 7px;
     color: #bd2130;
+}
+
+/*----- detail-page -----*/
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.half-container {
+    margin: auto;
+}
+
+.half-container p:first-child {
+    font: 600 23px/24px 'Montserrat', sans-serif;
+    letter-spacing: -0.92px;
+    margin-bottom: 20px;
+}
+
+.half-container p:nth-child(2) {
+    font: 400 18px/24px 'Montserrat', sans-serif;
+    margin-bottom: 30px;
+}
+
+.half-container p:nth-child(3) {
+    font: 500 17px/24px 'Montserrat', sans-serif;
+    margin-bottom: 20px;
 }
 
 
