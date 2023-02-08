@@ -1,1 +1,2 @@
 # 🍰 cakebake
+Spring Boot, JPA
