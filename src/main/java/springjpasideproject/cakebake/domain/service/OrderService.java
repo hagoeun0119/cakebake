@@ -23,17 +23,14 @@ public class OrderService {
     @Transactional
     public Long orderFromDetail(Long memberId, Long orderProductId, String receiver, String phone, String email, String comment, String basicAddress, String restAddress, String zipcode) {
 
-        // 엔티티 조회
         Member member = memberRepository.findOne(memberId);
         OrderProduct orderProduct = orderProductRepository.findOne(orderProductId);
 
-        // 배송 정보 생성
         Delivery delivery = new Delivery();
         Address address = new Address(basicAddress, restAddress, zipcode);
         delivery.setAddress(address);
         delivery.setStatus(DeliveryStatus.READY);
 
-        // 주문 생성
         Order order = Order.createOrder(member, delivery, receiver, phone, email, comment, orderProduct);
 
         orderProduct.getOrder().setId(order.getId());
@@ -43,6 +40,7 @@ public class OrderService {
         return order.getId();
     }
 
+    // 나중에 사용할 것
     @Transactional
     public Long order(Long memberId, Long productId, int count, String receiver, String phone, String email, String comment) {
 

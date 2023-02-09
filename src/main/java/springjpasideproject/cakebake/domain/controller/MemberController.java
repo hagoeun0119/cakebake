@@ -63,9 +63,6 @@ public class MemberController {
     @PostMapping("/member/login")
     public String login(@Valid LoginForm form, BindingResult result) {
 
-        log.info(form.getUserId(), form.getPassword());
-
-
         if (result.hasErrors()) {
             return "members/login";
         }

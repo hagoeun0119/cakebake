@@ -10,4 +10,5 @@ public class OrderProductForm {
 
     @NotEmpty(message = "수량을 입력해주세요.")
     private int count;
+
 }

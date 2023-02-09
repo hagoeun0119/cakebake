@@ -26,6 +26,4 @@ public class OrderForm {
     @NotEmpty(message = "우편번호를 입력해주세요.")
     private String zipcode;
 
-
-
 }

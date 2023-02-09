@@ -26,13 +26,14 @@ public class OrderController {
     private final ProductService productService;
     private final OrderProductService orderProductService;
 
-    /**
-     * 제품 상세 페이지
-     */
     @GetMapping("/product/{name}/{productId}/category/{category}/{categoryId}")
-    public String productDetailForm(@PathVariable("name") String name, @PathVariable("productId") Long productId, @PathVariable("category") String categoryName, @PathVariable("categoryId") Long categoryId, Model model) {
+    public String productDetailForm(@PathVariable("name") String name,
+                                    @PathVariable("productId") Long productId,
+                                    @PathVariable("category") String categoryName,
+                                    @PathVariable("categoryId") Long categoryId,
+                                    Model model) {
 
-        Product productDetail = (Product) productService.findOne(productId);
+        Product productDetail = productService.findOne(productId);
 
         model.addAttribute("product", productDetail);
         model.addAttribute("orderProductForm", new OrderProductForm());
@@ -40,14 +41,10 @@ public class OrderController {
         return "products/productDetailForm";
     }
 
-    /**
-     * 상세 페이지에서 주문
-     */
     @PostMapping("/order/orderForm/{productId}")
     public String productOrderFromDetail(@PathVariable("productId") Long productId, OrderProductForm form, RedirectAttributes redirect) {
 
         Long orderProductId = orderProductService.orderProductFromDetail(productId, form.getCount());
-        // orderProductId 전달
         redirect.addAttribute("orderProductId", orderProductId);
 
         return "redirect:/order/orderForm";
@@ -63,15 +60,15 @@ public class OrderController {
         model.addAttribute("orderForm", new OrderForm());
         model.addAttribute("orderProductId", orderProductId);
 
-        return "order/orderFormFromDetail";
+        return "order/orderCreateForm";
     }
 
     @PostMapping("/order/submit/{orderProductId}")
     public String orderCreate(@RequestParam Long memberId, @PathVariable Long orderProductId, @Valid OrderForm form) {
 
         orderService.orderFromDetail(memberId, orderProductId, form.getReceiver(), form.getPhone(), form.getEmail(), form.getComment(), form.getBasicAddress(), form.getRestAddress(), form.getZipcode());
+
         return "redirect:/";
     }
-
 }
 

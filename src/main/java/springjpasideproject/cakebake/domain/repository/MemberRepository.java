@@ -28,6 +28,7 @@ public class MemberRepository {
     }
 
     public List<Member> findByUserId(String userId) {
+
         return em.createQuery("select m from Member m where m.userId = :userId", Member.class)
                 .setParameter("userId", userId)
                 .getResultList();

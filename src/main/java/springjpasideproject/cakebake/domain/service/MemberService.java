@@ -26,7 +26,6 @@ public class MemberService {
         return member.getId();
     }
 
-    // 회원 아이디로 검색
     private void validateDuplicateMember(Member member) {
         List<Member> findMember = memberRepository.findByUserId(member.getUserId());
         if (!findMember.isEmpty() ) {
@@ -43,8 +42,9 @@ public class MemberService {
     }
 
     public boolean findByUserId(String userId, String password) {
+
         List<Member> findUserId = memberRepository.findByUserId(userId);
-        log.info(password);
+
         if (findUserId.get(0).getPassword().equals(password)) {
             log.info("Login Successful");
             return true;

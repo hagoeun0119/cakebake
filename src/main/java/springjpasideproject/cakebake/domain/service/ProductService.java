@@ -16,12 +16,9 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
 
     @Transactional
-    public void saveProduct(Product product) {
-        productRepository.save(product);
-    }
+    public void saveProduct(Product product) { productRepository.save(product); }
 
     @Transactional
     public void updateItem(Long itemId, String name, String ingredient, String image, int price, int stockQuantity, String categoryName) {
@@ -39,10 +36,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public List<Product> findByCategory(String category) { return productRepository.findByCategory(category); }
+    public List<Product> findProductsByCategory(String category) { return productRepository.findProductsByCategory(category); }
 
-    public Product findOne(Long productId) {
-        return productRepository.findOne(productId);
-    }
+    public Product findOne(Long productId) { return productRepository.findOne(productId);}
 
 }
