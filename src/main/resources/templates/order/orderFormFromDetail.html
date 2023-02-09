@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+	<!-- Bootstrap -->
+	<link href="/css/main.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com" rel="preconnect">
+	<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@900&family=Montserrat:wght@500;600&family=Noto+Sans+KR:wght@100;300&display=swap"
+		rel="stylesheet">
+</head>
+<header th:replace="fragments/header :: header">
+	<a href="/"><p class="text-dark">Shop</p></a>
+</header>
+<body>
+<div class="container">
+	<div>
+		<nav th:replace="fragments/nav :: nav"></nav>
+	</div>
+	<form th:action="@{/order/submit/{orderProductId} (orderProductId=${orderProductId})} " method="post" role="form" th:object="${orderForm}">
+		<div class="form-group">
+			<label for="member">주문회원</label>
+			<select class="form-control" id="member" th:name="memberId">
+				<option value="">회원선택</option>
+				<option th:each="member : ${members}"
+								th:text="${member.name}"
+								th:value="${member.id}"/>
+			</select>
+		</div>
+		<div class="form-group">
+			<label th:for="receiver">받으시는 분</label>
+			<input class="form-control" placeholder="name" th:field="*{receiver}" type="text">
+		</div>
+		<div class="form-group">
+			<label th:for="address">우편번호</label>
+			<input class="form-control" placeholder="address" th:field="*{zipcode}" type="text">
+		</div>
+		<div class="form-group">
+			<label th:for="address">기본 주소</label>
+			<input class="form-control" placeholder="address" th:field="*{basicAddress}" type="text">
+		</div>
+		<div class="form-group">
+			<label th:for="address">나머지 주소</label>
+			<input class="form-control" placeholder="address" th:field="*{restAddress}" type="text">
+		</div>
+		<div class="form-group">
+			<label th:for="phone">휴대전화</label>
+			<input class="form-control" placeholder="phone" th:field="*{phone}" type="text">
+		</div>
+		<div class="form-group">
+			<label th:for="email">이메일</label>
+			<input class="form-control" placeholder="email" th:field="*{email}" type="text">
+		</div>
+		<div class="form-group">
+			<label th:for="comment">배송 메시지</label>
+			<input class="form-control" placeholder="comment" th:field="*{comment}" type="text">
+		</div>
+		<div class="middle-box">
+			<button class="submit-btn btn-lg" type="submit">SUBMIT</button>
+		</div>
+	</form>
+</div>
+<br/>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
