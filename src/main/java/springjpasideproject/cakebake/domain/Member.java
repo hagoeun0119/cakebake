@@ -12,6 +12,10 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
+
     private String userId;
 
     private String password;
