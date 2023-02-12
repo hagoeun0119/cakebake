@@ -6,14 +6,13 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderProduct {
 
@@ -36,15 +35,21 @@ public class OrderProduct {
 
     private int count;
 
+    public OrderProduct(Product product, int orderPrice, int count) {
+        this.product = product;
+        this.orderPrice = orderPrice;
+        this.count = count;
+    }
+
     public static OrderProduct createOrderProduct(Product product, int orderPrice, int count) {
 
-        OrderProduct orderProduct = new OrderProduct();
-        orderProduct.setProduct(product);
-        orderProduct.setOrderPrice(orderPrice);
-        orderProduct.setCount(count);
-
+        OrderProduct orderProduct = new OrderProduct(product, orderPrice, count);
         product.removeStock(count);
         return orderProduct;
+    }
+
+    public void addOrder(Order order) {
+        this.order = order;
     }
 
     public void cancel() { getProduct().addStock(count); }

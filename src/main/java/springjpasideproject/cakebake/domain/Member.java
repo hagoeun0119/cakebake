@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
 public class Member {
 
     @Id @GeneratedValue
@@ -26,4 +26,15 @@ public class Member {
 
     private String email;
 
+    protected Member() {
+    }
+
+    public Member(Basket basket, String userId, String password, String name, String phone, String email) {
+        this.basket = basket;
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
 }

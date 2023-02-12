@@ -52,7 +52,7 @@ public class Order {
     // 핵심적으로 controll 하는 곳에 추가
     public void addOrderProduct(OrderProduct orderProduct) {
         orderProducts.add(orderProduct);
-        orderProduct.setOrder(this);
+        orderProduct.addOrder(this);
     }
 
     public void setDelivery(Delivery delivery) {

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.service.MemberService;
 
@@ -33,12 +34,9 @@ public class MemberController {
             return "members/createMemberForm";
         }
 
-        Member member = new Member();
-        member.setUserId(form.getUserId());
-        member.setPassword(form.getPassword());
-        member.setName(form.getName());
-        member.setPhone(form.getPhone());
-        member.setEmail(form.getEmail());
+        Basket basket = new Basket();
+        Member member = new Member(basket, form.getUserId(), form.getPassword(), form.getName(), form.getPhone(), form.getEmail());
+        basket.addMemberToBasket(member);
 
         memberService.join(member);
         return "redirect:/";

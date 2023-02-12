@@ -21,4 +21,11 @@ public class BasketProduct {
     @JoinColumn(name = "order_product_id")
     private OrderProduct orderProduct;
 
+    protected BasketProduct() {
+    }
+
+    public BasketProduct(Basket basket, OrderProduct orderProduct) {
+        this.basket = basket;
+        this.orderProduct = orderProduct;
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.repository.MemberRepository;
 
@@ -29,12 +30,8 @@ public class MemberServiceTest {
     @Rollback(value = false)
     public void 회원가입() throws Exception {
         //given
-        Member member = new Member();
-        member.setUserId("hi1234");
-        member.setName("새우튀김");
-        member.setPassword("j");
-        member.setPhone("010-0000-0000");
-        member.setEmail("todnxnlrla@naver.com");
+        Basket basket = new Basket();
+        Member member = new Member(basket, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
 
         //when
         Long saveId = memberService.join(member);
@@ -47,11 +44,11 @@ public class MemberServiceTest {
     @Test(expected = IllegalStateException.class)
     public void 중복_확인() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setUserId("hi1234");
+        Basket basket1 = new Basket();
+        Member member1 = new Member(basket1, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
 
-        Member member2 = new Member();
-        member2.setUserId("hi1234");
+        Basket basket2 = new Basket();
+        Member member2 = new Member(basket2, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
 
         //when
         memberService.join(member1);

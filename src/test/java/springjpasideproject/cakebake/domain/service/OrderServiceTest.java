@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import springjpasideproject.cakebake.domain.Member;
-import springjpasideproject.cakebake.domain.Order;
-import springjpasideproject.cakebake.domain.OrderStatus;
-import springjpasideproject.cakebake.domain.Product;
+import springjpasideproject.cakebake.domain.*;
 import springjpasideproject.cakebake.domain.repository.OrderRepository;
 import springjpasideproject.cakebake.exception.NotEnoughStockException;
 
@@ -97,15 +94,10 @@ public class OrderServiceTest {
     }
 
     private Member createMember() {
-        Member member = new Member();
-        member.setUserId("hi1234");
-        member.setName("Kim");
-        member.setPassword("j");
-        member.setPhone("010-0000-0000");
-        member.setEmail("todnxnlrla@naver.com");
+        Basket basket = new Basket();
+        Member member = new Member(basket, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
         em.persist(member);
         return member;
     }
-
 
 }
