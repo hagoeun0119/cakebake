@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
+import springjpasideproject.cakebake.domain.service.BasketService;
 import springjpasideproject.cakebake.domain.service.MemberService;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BasketService basketService;
 
     @GetMapping("/member/join")
     public String createForm(Model model) {
@@ -36,9 +38,10 @@ public class MemberController {
 
         Basket basket = new Basket();
         Member member = new Member(basket, form.getUserId(), form.getPassword(), form.getName(), form.getPhone(), form.getEmail());
-        basket.addMemberToBasket(member);
-
         memberService.join(member);
+
+        basket.addMemberToBasket(member);
+        basketService.createBasket(basket);
         return "redirect:/";
     }
 
