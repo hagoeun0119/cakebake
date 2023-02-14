@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import springjpasideproject.cakebake.exception.NotEnoughStockException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Setter @Getter
 public class Product {
@@ -14,15 +17,18 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
+    @OneToMany(mappedBy = "Product",  cascade = CascadeType.ALL)
+    private List<BasketProduct> basketProducts = new ArrayList<>();
+
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     private String name;
     private String ingredient;
     private String image;
     private int price;
     private int stockQuantity;
-
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
-    private Category category;
 
     // 비즈니스 로직
     /**

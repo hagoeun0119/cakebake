@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import springjpasideproject.cakebake.domain.Basket;
-import springjpasideproject.cakebake.domain.Member;
 
 import java.util.List;
 
@@ -18,9 +17,9 @@ public class BasketRepository {
 
     public Basket findOne(Long id) { return em.find(Basket.class, id); }
 
-    public List<Basket> findByUserId(Long userId) {
-        return em.createQuery("select m from Member m where m.userId = :userId", Basket.class)
-                .setParameter("userId", userId)
+    public List<Basket> findByUserPrimaryId(Long userPrimaryId) {
+        return em.createQuery("select b from Basket b where b.member.id = :userPrimaryId", Basket.class)
+                .setParameter("userPrimaryId", userPrimaryId)
                 .getResultList();
     }
 

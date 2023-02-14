@@ -18,14 +18,17 @@ public class BasketProduct {
     private Basket basket;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "order_product_id")
-    private OrderProduct orderProduct;
+    @JoinColumn(name = "product_id")
+    private Product Product;
+
+    private int count;
 
     protected BasketProduct() {
     }
 
-    public BasketProduct(Basket basket, OrderProduct orderProduct) {
+    public BasketProduct(Basket basket, Product Product, int count) {
         this.basket = basket;
-        this.orderProduct = orderProduct;
+        this.Product = Product;
+        this.count = count;
     }
 }

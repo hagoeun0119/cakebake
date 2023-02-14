@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+	<!-- Bootstrap -->
+	<link href="/css/main.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com" rel="preconnect">
+	<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@900&family=Montserrat:wght@500&family=Noto+Sans+KR:wght@100;300&display=swap"
+		rel="stylesheet">
+</head>
+<header th:replace="fragments/header :: header">
+	<a href="/"><p class="text-dark">Shop</p></a>
+</header>
+<body>
+<div class="container">
+	<div>
+		<nav th:replace="fragments/nav :: nav"></nav>
+	</div>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>이미지</th>
+			<th>상품정보</th>
+			<th>판매가</th>
+			<th>수량</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="basketProduct : ${basketProducts}">
+			<td th:alt="${basketProduct.product.name}" th:src="${basketProduct.product.image}">
+			<td th:text="${basketProduct.product.name}">
+			<td th:text="|KRW ${basketProduct.product.price}|"></td>
+			<td th:text="${basketProduct.count}"></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
+

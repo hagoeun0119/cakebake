@@ -7,10 +7,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,9 +19,6 @@ public class OrderProduct {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-
-    @OneToMany(mappedBy = "orderProduct",  cascade = CascadeType.ALL)
-    private List<BasketProduct> basketProducts = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id")
