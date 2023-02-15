@@ -8,6 +8,7 @@ import springjpasideproject.cakebake.domain.Product;
 import springjpasideproject.cakebake.domain.repository.CategoryRepository;
 import springjpasideproject.cakebake.domain.repository.ProductRepository;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -16,6 +17,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public void saveProduct(Product product) { productRepository.save(product); }
@@ -29,7 +31,20 @@ public class ProductService {
         product.setImage(image);
         product.setPrice(price);
         product.setStockQuantity(stockQuantity);
-        product.getCategory().setName(categoryName);
+
+        List<Category> categoryList = categoryRepository.findByName(categoryName);
+        Iterator<Product> products = categoryList.get(0).getProducts().listIterator();
+
+        while(products.hasNext()) {
+            Product findProduct = products.next();
+            if (findProduct.getId().equals(itemId)) {
+                products.remove();
+            }
+        }
+
+        product.setCategory(categoryList.get(0));
+        categoryList.get(0).getProducts().add(product);
+
     }
 
     public List<Product> findProducts() {

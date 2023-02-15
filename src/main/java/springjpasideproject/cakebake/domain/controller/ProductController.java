@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import springjpasideproject.cakebake.domain.Category;
 import springjpasideproject.cakebake.domain.Product;
+import springjpasideproject.cakebake.domain.service.CategoryService;
 import springjpasideproject.cakebake.domain.service.ProductService;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     /**
      * 제품 생성
@@ -31,9 +33,7 @@ public class ProductController {
     @PostMapping("/products/new")
     public String create(ProductForm form) {
 
-        // Set Category
-        Category category = new Category();
-        category.setName(form.getCategory());
+        Category category = categoryService.createCategory(form.getCategory());
 
         Product product = new Product();
         product.setName(form.getName());
@@ -43,6 +43,7 @@ public class ProductController {
         product.setStockQuantity(form.getStockQuantity());
 
         product.setCategory(category);
+        category.getProducts().add(product);
 
         productService.saveProduct(product);
         return "redirect:/products";
