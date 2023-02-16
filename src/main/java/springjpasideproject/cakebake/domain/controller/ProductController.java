@@ -25,27 +25,18 @@ public class ProductController {
      * 제품 생성
      */
     @GetMapping("/products/new")
-    public String createForm(Model model) {
+    public String registerProductForm(Model model) {
         model.addAttribute("form", new ProductForm());
         return "products/createProductForm";
     }
 
     @PostMapping("/products/new")
-    public String create(ProductForm form) {
+    public String registerProduct(ProductForm form) {
 
         Category category = categoryService.createCategory(form.getCategory());
-
-        Product product = new Product();
-        product.setName(form.getName());
-        product.setIngredient(form.getIngredient());
-        product.setImage(form.getImage());
-        product.setPrice(form.getPrice());
-        product.setStockQuantity(form.getStockQuantity());
-
-        product.setCategory(category);
+        Product product = productService.registerProduct(form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity(), category);
         category.getProducts().add(product);
 
-        productService.saveProduct(product);
         return "redirect:/products";
     }
 

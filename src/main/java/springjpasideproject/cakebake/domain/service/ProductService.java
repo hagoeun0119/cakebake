@@ -20,7 +20,12 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public void saveProduct(Product product) { productRepository.save(product); }
+    public Product registerProduct(String name, String ingredient, String image, int price, int stockQuantity, Category category) {
+
+        Product product = Product.createProduct(name, ingredient, image, price, stockQuantity, category);
+        productRepository.save(product);
+        return product;
+    }
 
     @Transactional
     public void updateItem(Long itemId, String name, String ingredient, String image, int price, int stockQuantity, String categoryName) {

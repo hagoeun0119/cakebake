@@ -2,7 +2,9 @@ package springjpasideproject.cakebake.domain;
 
 import static jakarta.persistence.FetchType.*;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import springjpasideproject.cakebake.exception.NotEnoughStockException;
 
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Setter @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
     @Id @GeneratedValue
@@ -29,6 +32,18 @@ public class Product {
     private String image;
     private int price;
     private int stockQuantity;
+
+    public static Product createProduct(String name, String ingredient, String image, int price, int stockQuantity, Category category) {
+
+        Product product = new Product();
+        product.name = name;
+        product.ingredient = ingredient;
+        product.image = image;
+        product.price = price;
+        product.stockQuantity = stockQuantity;
+        product.category = category;
+        return product;
+    }
 
     // 비즈니스 로직
     /**
