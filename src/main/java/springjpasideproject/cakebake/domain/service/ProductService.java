@@ -21,22 +21,20 @@ public class ProductService {
 
     @Transactional
     public Product registerProduct(String name, String ingredient, String image, int price, int stockQuantity, Category category) {
-
-        Product product = Product.createProduct(name, ingredient, image, price, stockQuantity, category);
+        Product product = Product.builder()
+                .name(name)
+                .ingredient(ingredient)
+                .image(image)
+                .price(price)
+                .stockQuantity(stockQuantity)
+                .category(category).build();
         productRepository.save(product);
         return product;
     }
 
     @Transactional
-    public void updateItem(Long itemId, String name, String ingredient, String image, int price, int stockQuantity, String categoryName) {
-
+    public void updateProduct(Long itemId, String name, String ingredient, String image, int price, int stockQuantity, String categoryName) {
         Product product = productRepository.findOne(itemId);
-        product.setName(name);
-        product.setIngredient(ingredient);
-        product.setImage(image);
-        product.setPrice(price);
-        product.setStockQuantity(stockQuantity);
-
         List<Category> categoryList = categoryRepository.findByName(categoryName);
         Iterator<Product> products = categoryList.get(0).getProducts().listIterator();
 
@@ -47,9 +45,8 @@ public class ProductService {
             }
         }
 
-        product.setCategory(categoryList.get(0));
+        product.updateProduct(name, ingredient, image, price, stockQuantity, categoryList.get(0));
         categoryList.get(0).getProducts().add(product);
-
     }
 
     public List<Product> findProducts() {

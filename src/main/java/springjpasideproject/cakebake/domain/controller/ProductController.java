@@ -79,7 +79,7 @@ public class ProductController {
 
     @PostMapping("/products/{productId}/edit")
     public String updateProductForm(@PathVariable Long productId, @ModelAttribute("form") ProductForm form) {
-        productService.updateItem(productId, form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity(), form.getCategory());
+        productService.updateProduct(productId, form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity(), form.getCategory());
         return "redirect:/products";
     }
 
