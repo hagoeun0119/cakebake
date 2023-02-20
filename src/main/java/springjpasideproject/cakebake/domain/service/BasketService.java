@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.BasketProduct;
+import springjpasideproject.cakebake.domain.Category;
 import springjpasideproject.cakebake.domain.Product;
 import springjpasideproject.cakebake.domain.repository.BasketProductRepository;
 import springjpasideproject.cakebake.domain.repository.BasketRepository;
@@ -20,6 +21,9 @@ public class BasketService {
     private final BasketRepository basketRepository;
     private final BasketProductRepository basketProductRepository;
     private final ProductRepository productRepository;
+
+    @Transactional
+    public Basket findOne(Long basketId) { return basketRepository.findOne(basketId); }
 
     @Transactional
     public void createBasket(Basket basket) {
@@ -39,5 +43,11 @@ public class BasketService {
         basketProductRepository.save(basketProduct);
 
         return basket.getBasketProducts();
+    }
+
+    public void deleteBasketProduct(Long basketProductId) {
+
+        BasketProduct basketProduct = basketProductRepository.findOne(basketProductId);
+        basketProductRepository.delete(basketProduct);
     }
 }

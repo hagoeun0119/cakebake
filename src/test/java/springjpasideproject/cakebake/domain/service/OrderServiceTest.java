@@ -29,7 +29,7 @@ public class OrderServiceTest {
 
         //given
         Member member = createMember();
-        Product product = createProduct("블루베리 케이크", "블루베리", "url", 20000, 10);
+        Product product = createProduct("블루베리 케이크", "블루베리", "url", 20000, 10, "케이크");
 
         int orderCount = 2;
 
@@ -51,7 +51,7 @@ public class OrderServiceTest {
 
         //given
         Member member = createMember();
-        Product product = createProduct("블루베리 케이크", "블루베리", "url", 20000, 10);
+        Product product = createProduct("블루베리 케이크", "블루베리", "url", 20000, 10, "케이크");
 
         int orderCount = 11;
 
@@ -67,7 +67,7 @@ public class OrderServiceTest {
 
         //given
         Member member = createMember();
-        Product product = createProduct("블루베리 케이크", "블루베리", "url", 20000, 10);
+        Product product = createProduct("블루베리 케이크", "블루베리", "url", 20000, 10, "케이크");
 
         int orderCount = 2;
         Long orderId = orderService.order(member.getId(), product.getId(), orderCount, "Kim", "010-1234-5678", "hi@naver.com", "빠른 배송");
@@ -82,13 +82,15 @@ public class OrderServiceTest {
         assertEquals("주문 취소시 상태는 CANCEL이다.", 10, product.getStockQuantity());
     }
 
-    private Product createProduct(String name, String ingredient, String image, int price, int stockQuantity) {
-        Product product = new Product();
-        product.setName(name);
-        product.setIngredient(ingredient);
-        product.setImage(image);
-        product.setPrice(price);
-        product.setStockQuantity(stockQuantity);
+    private Product createProduct(String name, String ingredient, String image, int price, int stockQuantity, String categoryName) {
+        Category category = new Category(categoryName);
+        Product product = Product.builder()
+                .name(name)
+                .ingredient(ingredient)
+                .image(image)
+                .price(price)
+                .stockQuantity(stockQuantity)
+                .category(category).build();
         em.persist(product);
         return product;
     }

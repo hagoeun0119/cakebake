@@ -14,4 +14,6 @@ public class BasketProductRepository {
     public void save(BasketProduct basketProduct) { em.persist(basketProduct); }
 
     public BasketProduct findOne(Long id) { return em.find(BasketProduct.class, id); }
+
+    public void delete(BasketProduct basketProduct) { em.remove(basketProduct); }
 }

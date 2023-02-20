@@ -21,22 +21,28 @@
 	<div>
 		<nav th:replace="fragments/nav :: nav"></nav>
 	</div>
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
 		<tr>
 			<th>이미지</th>
 			<th>상품정보</th>
 			<th>판매가</th>
 			<th>수량</th>
+			<th>삭제</th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr th:each="basketProduct : ${basketProducts}">
-			<td th:alt="${basketProduct.product.name}" th:src="${basketProduct.product.image}">
-			<td th:text="${basketProduct.product.name}">
+			<td class="w-25"><img th:alt="${basketProduct.product.name}" th:src="${basketProduct.product.image}"></td>
+			<td th:text="${basketProduct.product.name}"></td>
 			<td th:text="|KRW ${basketProduct.product.price}|"></td>
 			<td th:text="${basketProduct.count}"></td>
+			<td><a class="delete-btn btn-lg" href="#"
+						 role="button" th:href="@{/basket/delete/{basketId}/{basketProductId} (basketId=${basketProduct.basket.id}, basketProductId=${basketProduct.id})}">DELETE
+			</a>
+			<td>
 		</tr>
+		</form>
 		</tbody>
 	</table>
 </div>
