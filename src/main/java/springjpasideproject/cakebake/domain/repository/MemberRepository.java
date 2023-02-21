@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import springjpasideproject.cakebake.domain.Member;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,10 +28,10 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    public List<Member> findByUserId(String userId) {
+    public Optional<Member> findByUserId(String userId) {
 
-        return em.createQuery("select m from Member m where m.userId = :userId", Member.class)
-                .setParameter("userId", userId)
-                .getResultList();
+        return this.findAll().stream()
+                .filter(m -> m.getUserId().equals(userId))
+                .findFirst();
     }
 }

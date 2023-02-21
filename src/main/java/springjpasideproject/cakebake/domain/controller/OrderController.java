@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springjpasideproject.cakebake.domain.BasketProduct;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.Product;
+import springjpasideproject.cakebake.domain.SessionConstants;
 import springjpasideproject.cakebake.domain.service.*;
 
 import java.util.List;
@@ -42,16 +42,7 @@ public class OrderController {
         return "products/productDetailForm";
     }
 
-    @PostMapping(value = "/order/basket")
-    public String addProductToBasket(@RequestParam Long memberId, @RequestParam Long productId, OrderProductForm form, Model model) {
-
-        List<BasketProduct> basketProducts = basketService.createBasketProduct(productId, memberId, form.getCount());
-        model.addAttribute("basketProducts", basketProducts);
-
-        return "/order/basket";
-    }
-
-    @PostMapping(value = "/order/{productId}")
+    @PostMapping( "/order/{productId}")
     public String productOrderFromDetail(@PathVariable("productId") Long productId, OrderProductForm form, RedirectAttributes redirect) {
 
         Long orderProductId = orderProductService.orderProductFromDetail(productId, form.getCount());

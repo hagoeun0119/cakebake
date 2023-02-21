@@ -1,5 +1,7 @@
 package springjpasideproject.cakebake.domain.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
+import springjpasideproject.cakebake.domain.SessionConstants;
 import springjpasideproject.cakebake.domain.service.BasketService;
 import springjpasideproject.cakebake.domain.service.MemberService;
 
@@ -62,17 +65,24 @@ public class MemberController {
     }
 
     @PostMapping("/member/login")
-    public String login(@Valid LoginForm form, BindingResult result) {
+    public String login(@Valid LoginForm form,
+                        BindingResult result,
+                        HttpServletRequest req) {
 
         if (result.hasErrors()) {
             return "members/login";
         }
 
-        if (memberService.findByUserId(form.getUserId(), form.getPassword())) {
-            return "redirect:/";
+        Member loginMember = memberService.login(form.getUserId(), form.getPassword());
+
+        if (loginMember == null) {
+            result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "members/login";
         }
 
-        return "members/login";
+        HttpSession session = req.getSession();
+        session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
 
+        return "redirect:/";
     }
 }

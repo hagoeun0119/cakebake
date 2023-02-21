@@ -27,7 +27,7 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findMember = memberRepository.findByUserId(member.getUserId());
+        Optional<Member> findMember = memberRepository.findByUserId(member.getUserId());
         if (!findMember.isEmpty() ) {
             throw new IllegalStateException("Already exists");
         }
@@ -41,16 +41,12 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public boolean findByUserId(String userId, String password) {
+    public Member login(String userId, String password) {
 
-        List<Member> findUserId = memberRepository.findByUserId(userId);
+        return memberRepository.findByUserId(userId)
+                .filter(m -> m.getPassword().equals(password))
+                .orElse(null);
 
-        if (findUserId.get(0).getPassword().equals(password)) {
-            log.info("Login Successful");
-            return true;
-        }
-
-        return false;
     }
 }
 
