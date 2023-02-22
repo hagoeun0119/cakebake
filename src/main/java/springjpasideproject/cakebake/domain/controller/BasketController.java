@@ -36,12 +36,19 @@ public class BasketController {
         HttpSession session = request.getSession(false);
 
         if (session == null) {
+            model.addAttribute("loginForm", new LoginForm());
             return "members/login";
         }
 
-        // 수정 필요한 부분
         Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
-        model.addAttribute("basketProducts", loginMember);
+
+        if (loginMember == null) {
+            model.addAttribute("loginForm", new LoginForm());
+            return "members/login";
+        }
+
+        List<BasketProduct> basketProducts = basketService.findAllBasketProduct(loginMember.getBasket().getId());
+        model.addAttribute("basketProducts", basketProducts);
 
         return "order/basket";
     }

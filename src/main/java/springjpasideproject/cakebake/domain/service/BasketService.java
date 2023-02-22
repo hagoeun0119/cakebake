@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.BasketProduct;
-import springjpasideproject.cakebake.domain.Category;
 import springjpasideproject.cakebake.domain.Product;
 import springjpasideproject.cakebake.domain.repository.BasketProductRepository;
 import springjpasideproject.cakebake.domain.repository.BasketRepository;
@@ -24,6 +23,9 @@ public class BasketService {
 
     @Transactional
     public Basket findOne(Long basketId) { return basketRepository.findOne(basketId); }
+
+    @Transactional
+    public List<BasketProduct> findAllBasketProduct(Long basketId) { return basketProductRepository.findAll(basketId); }
 
     @Transactional
     public void createBasket(Basket basket) {
