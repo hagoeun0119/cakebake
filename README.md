@@ -23,6 +23,8 @@
 ### 🍒 Tarte Category
 ![image](https://user-images.githubusercontent.com/93965468/219944392-9875f116-2fe6-4709-8622-51e64d154a30.png)
 
+### 🍒 Login
+![login](https://user-images.githubusercontent.com/93965468/219938114-ef2ab905-9fde-426f-857f-3b2037b77f02.png)
 
-<!-- ### 🍒 Login
-![login](https://user-images.githubusercontent.com/93965468/219938114-ef2ab905-9fde-426f-857f-3b2037b77f02.png) -->
+### 🍒 Detail
+![product_detail](https://user-images.githubusercontent.com/93965468/220838831-8c7b47c9-6c55-422c-a47e-9f083fa7bca5.png)
