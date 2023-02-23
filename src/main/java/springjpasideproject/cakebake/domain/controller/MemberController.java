@@ -55,9 +55,6 @@ public class MemberController {
         return "members/memberList";
     }
 
-    /**
-     * 로그인 기능 구현
-     */
     @GetMapping("/member/login")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -67,7 +64,8 @@ public class MemberController {
     @PostMapping("/member/login")
     public String login(@Valid LoginForm form,
                         BindingResult result,
-                        HttpServletRequest req) {
+                        HttpServletRequest req,
+                        Model model) {
 
         if (result.hasErrors()) {
             return "members/login";
@@ -77,7 +75,8 @@ public class MemberController {
 
         if (loginMember == null) {
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "members/login";
+            model.addAttribute("loginFailMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
+            return "redirect:/member/login";
         }
 
         HttpSession session = req.getSession();
