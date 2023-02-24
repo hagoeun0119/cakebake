@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.SessionConstants;
@@ -65,6 +66,7 @@ public class MemberController {
     public String login(@Valid LoginForm form,
                         BindingResult result,
                         HttpServletRequest req,
+                        @RequestParam(defaultValue = "/") String redirectURL,
                         Model model) {
 
         if (result.hasErrors()) {
@@ -76,11 +78,22 @@ public class MemberController {
         if (loginMember == null) {
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             model.addAttribute("loginFailMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            return "redirect:/member/login";
+            return "members/login";
         }
 
         HttpSession session = req.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
+
+        return "redirect:" + redirectURL;
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();   // 세션 날림
+        }
 
         return "redirect:/";
     }

@@ -24,7 +24,7 @@
 	</div>
 	<section class="login">
 		<h3>Log-in</h3>
-		<form action="/member/login" method="post" role="form" th:object="${loginForm}">
+		<form th:action="@{/member/login}" method="post" role="form" th:object="${loginForm}">
 			<div class="form-group">
 				<input class="login-form-control" placeholder="ID" th:field="*{userId}" type="text" />
 			</div>

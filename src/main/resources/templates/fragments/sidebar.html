@@ -9,8 +9,12 @@
 			<li class="btn btn-lg" th:if="${session.loginMember == null}">
 				<a class="side-link" href="/member/join">JOIN</a>
 			</li>
-			<li class="btn btn-lg" th:if="${session.loginMember != null}">
-				<a class="side-link" href="/">LOGOUT</a>
+			<li th:if="${session.loginMember != null}">
+				<form th:action="@{/logout}" method="post">
+					<button class="btn btn-lg" type="submit">
+						LOGOUT
+					</button>
+				</form>
 			</li>
 			<!-- Not yet implemented -->
 			<li class="btn btn-lg">
