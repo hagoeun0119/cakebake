@@ -23,15 +23,6 @@
 	</div>
 	<form th:action="@{/order/submit/{orderProductId} (orderProductId=${orderProductId})} " method="post" role="form" th:object="${orderForm}">
 		<div class="form-group">
-			<label for="member">주문회원</label>
-			<select class="form-control" id="member" th:name="memberId">
-				<option value="">회원선택</option>
-				<option th:each="member : ${members}"
-								th:text="${member.name}"
-								th:value="${member.id}"/>
-			</select>
-		</div>
-		<div class="form-group">
 			<label th:for="receiver">받으시는 분</label>
 			<input class="form-control" placeholder="name" th:field="*{receiver}" type="text">
 		</div>

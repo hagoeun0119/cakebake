@@ -10,6 +10,8 @@ import springjpasideproject.cakebake.domain.repository.OrderProductRepository;
 import springjpasideproject.cakebake.domain.repository.OrderRepository;
 import springjpasideproject.cakebake.domain.repository.ProductRepository;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,9 +23,8 @@ public class OrderService {
     private final OrderProductRepository orderProductRepository;
 
     @Transactional
-    public Long orderFromDetail(Long memberId, Long orderProductId, String receiver, String phone, String email, String comment, String basicAddress, String restAddress, String zipcode) {
+    public Long orderFromDetail(Member member, Long orderProductId, String receiver, String phone, String email, String comment, String basicAddress, String restAddress, String zipcode) {
 
-        Member member = memberRepository.findOne(memberId);
         OrderProduct orderProduct = orderProductRepository.findOne(orderProductId);
 
         Delivery delivery = new Delivery();
@@ -33,8 +34,7 @@ public class OrderService {
 
         Order order = Order.createOrder(member, delivery, receiver, phone, email, comment, orderProduct);
 
-        orderProduct.getOrder().setId(order.getId());
-
+        orderProduct.addOrder(order);
         orderRepository.save(order);
 
         return order.getId();
@@ -73,6 +73,10 @@ public class OrderService {
         // 주문 취소
         order.cancel();
     }
+
+    public List<Order> findOrdersByUserId(Long userId) { return orderRepository.findByUserId(userId); }
+
+
 
     /**
      * 검색

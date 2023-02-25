@@ -1,5 +1,7 @@
 package springjpasideproject.cakebake.domain.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springjpasideproject.cakebake.domain.Member;
+import springjpasideproject.cakebake.domain.Order;
 import springjpasideproject.cakebake.domain.Product;
 import springjpasideproject.cakebake.domain.SessionConstants;
 import springjpasideproject.cakebake.domain.service.*;
@@ -23,7 +26,23 @@ public class OrderController {
     private final MemberService memberService;
     private final ProductService productService;
     private final OrderProductService orderProductService;
-    private final BasketService basketService;
+
+    @GetMapping("/order")
+    public String order(HttpServletRequest request,
+                        Model model) {
+
+        HttpSession session = request.getSession();
+
+        if (session != null) {
+            Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+            List<Order> orders = orderService.findOrdersByUserId(loginMember.getId());
+            model.addAttribute("orders", orders);
+            return "order/orderList";
+        }
+
+        model.addAttribute("loginForm", new LoginForm());
+        return "members/login";
+    }
 
     @GetMapping("/product/{name}/{productId}/category/{category}/{categoryId}")
     public String productDetailForm(@PathVariable("name") String name,
@@ -65,9 +84,14 @@ public class OrderController {
     }
 
     @PostMapping("/order/submit/{orderProductId}")
-    public String orderCreate(@RequestParam Long memberId, @PathVariable Long orderProductId, @Valid OrderForm form) {
+    public String orderCreate(HttpServletRequest request,
+                              @PathVariable Long orderProductId,
+                              @Valid OrderForm form) {
 
-        orderService.orderFromDetail(memberId, orderProductId, form.getReceiver(), form.getPhone(), form.getEmail(), form.getComment(), form.getBasicAddress(), form.getRestAddress(), form.getZipcode());
+        HttpSession session = request.getSession(false);
+
+        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+        orderService.orderFromDetail(loginMember, orderProductId, form.getReceiver(), form.getPhone(), form.getEmail(), form.getComment(), form.getBasicAddress(), form.getRestAddress(), form.getZipcode());
         return "redirect:/";
     }
 }

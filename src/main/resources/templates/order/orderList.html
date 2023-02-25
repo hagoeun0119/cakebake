@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+	<!-- Bootstrap -->
+	<link href="/css/main.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com" rel="preconnect">
+	<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@900&family=Montserrat:wght@500&family=Noto+Sans+KR:wght@100;300&display=swap"
+		rel="stylesheet">
+</head>
+<header th:replace="fragments/header :: header">
+	<a href="/"><p class="text-dark">Shop</p></a>
+</header>
+<body>
+<div class="container">
+	<div>
+		<nav th:replace="fragments/nav :: nav"></nav>
+	</div>
+	<table class="table">
+		<thead>
+		<tr>
+			<th>주문일자</th>
+			<th>상품정보</th>
+			<th>수량</th>
+			<th>상품구매금액</th>
+			<th>주문처리상태</th>
+			<th>취소</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="order : ${orders}">
+			<td th:text="${#temporals.format(order.orderDate, 'yyyy.MM.dd')}"></td>
+			<td th:each="orderProduct : ${order.orderProducts} " th:text="${orderProduct.product.name}"></td>
+			<td th:each="orderProduct : ${order.orderProducts} " th:text="${orderProduct.count}"></td>
+			<td th:each="orderProduct : ${order.orderProducts} " th:text="|KRW ${orderProduct.product.price}|"></td>
+			<td th:text="${order.status}"></td>
+			<td>
+				<a class="delete-btn btn-lg" href="#">CANCLE</a>
+			<td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
+
