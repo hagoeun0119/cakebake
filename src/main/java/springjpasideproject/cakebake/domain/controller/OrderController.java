@@ -35,6 +35,12 @@ public class OrderController {
 
         if (session != null) {
             Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+
+            if (loginMember == null) {
+                model.addAttribute("loginForm", new LoginForm());
+                return "members/login";
+            }
+
             List<Order> orders = orderService.findOrdersByUserId(loginMember.getId());
             model.addAttribute("orders", orders);
             return "order/orderList";
@@ -94,5 +100,12 @@ public class OrderController {
         orderService.orderFromDetail(loginMember, orderProductId, form.getReceiver(), form.getPhone(), form.getEmail(), form.getComment(), form.getBasicAddress(), form.getRestAddress(), form.getZipcode());
         return "redirect:/";
     }
+
+    @PostMapping("/order/delete/{orderId}")
+    public String orderCancel(@PathVariable Long orderId) {
+        orderService.cancelOrder(orderId);
+        return "redirect:/order";
+    }
+
 }
 

@@ -265,6 +265,10 @@ td img {
     display: block;
 }
 
+/*----- orderList ------*/
+#cancel-form {
+    margin: 0;
+}
 
 
 /*!* Customize container *!*/
