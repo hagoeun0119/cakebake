@@ -21,32 +21,41 @@
 	<div>
 		<nav th:replace="fragments/nav :: nav"></nav>
 	</div>
-	<table class="table">
-		<thead>
-		<tr>
-			<th>이미지</th>
-			<th>상품정보</th>
-			<th>판매가</th>
-			<th>수량</th>
-			<th>삭제</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr th:each="basketProduct : ${basketProducts}">
-			<td class="w-25"><img th:alt="${basketProduct.product.name}" th:src="${basketProduct.product.image}"></td>
-			<td th:text="${basketProduct.product.name}"></td>
-			<td th:text="|KRW ${basketProduct.product.price}|"></td>
-			<td th:text="${basketProduct.count}"></td>
-			<td><a class="delete-btn btn-lg" href="#"
-						 role="button" th:href="@{/basket/delete/{basketId}/{basketProductId} (basketId=${basketProduct.basket.id}, basketProductId=${basketProduct.id})}">DELETE
-			</a>
-			<td>
-		</tr>
-		</form>
-		</tbody>
-	</table>
+	<form method="post" th:action="@{/order/orderForm}">
+		<table class="table">
+			<thead>
+			<tr>
+				<th>#</th>
+				<th>이미지</th>
+				<th>상품정보</th>
+				<th>판매가</th>
+				<th>수량</th>
+			</tr>
+			</thead>
+			<!-- 수정 -->
+			<tbody>
+			<tr th:each="basketProduct : ${basketProducts}">
+				<td><input name="basketProductId" th:value="*{basketProduct.id}" type="checkbox"/></td>
+				<td class="w-25"><img th:alt="${basketProduct.product.name}" th:src="${basketProduct.product.image}"></td>
+				<td th:text="${basketProduct.product.name}"></td>
+				<td th:text="|KRW ${basketProduct.product.price}|"></td>
+				<td th:text="${basketProduct.count}"></td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="middle-box">
+			<button class="submit-btn btn-lg" href="#" type="submit">BUY</button>
+			<button class="delete-btn btn-lg" href="#" onclick="change(this.form);" type="submit">DELETE</button>
+		</div>
+	</form>
 </div>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>
+<script>
+    function change(form) {
+        form.action = '/basket/delete';
+        form.submit();
+    }
+</script>
 </html>
 

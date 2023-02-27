@@ -22,12 +22,22 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping("/basket/delete/{basketId}/{basketProductId}")
-    public String deleteBasketProduct(@PathVariable Long basketId, @PathVariable Long basketProductId, Model model){
-        basketService.deleteBasketProduct(basketProductId);
-        List<BasketProduct> basketProducts = basketService.findOne(basketId).getBasketProducts();
+    @PostMapping("/basket/delete")
+    public String deleteBasketProduct(HttpServletRequest request,
+                                      @RequestParam List<Long> basketProductId,
+                                      Model model){
+
+        HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+
+        for (Long basketProduct : basketProductId) {
+            basketService.deleteBasketProduct(basketProduct);
+        }
+
+        List<BasketProduct> basketProducts = basketService.findOne(loginMember.getBasket().getId()).getBasketProducts();
         model.addAttribute("basketProducts", basketProducts);
-        return "order/basket";
+
+        return "redirect:/order/basket";
     }
 
     @GetMapping("/order/basket")

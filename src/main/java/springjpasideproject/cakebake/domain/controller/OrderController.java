@@ -79,10 +79,6 @@ public class OrderController {
     @GetMapping("/order/orderForm")
     public String orderCreateForm(@RequestParam("orderProductId") Long orderProductId, Model model) {
 
-        // 현재 member를 list로 구현했음 -> 수정사항
-        List<Member> members = memberService.findMembers();
-
-        model.addAttribute("members", members);
         model.addAttribute("orderForm", new OrderForm());
         model.addAttribute("orderProductId", orderProductId);
 
