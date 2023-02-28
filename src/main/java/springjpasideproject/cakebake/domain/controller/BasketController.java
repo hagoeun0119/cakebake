@@ -63,7 +63,6 @@ public class BasketController {
         return "order/basket";
     }
 
-
     @PostMapping( "/order/basket")
     public String addProductToBasket(@RequestParam Long productId, OrderProductForm form, Model model, HttpServletRequest request) {
 
@@ -72,5 +71,14 @@ public class BasketController {
         List<BasketProduct> basketProducts = basketService.createBasketProduct(productId, loginMember.getId(), form.getCount());
         model.addAttribute("basketProducts", basketProducts);
         return "order/basket";
+    }
+
+    @PostMapping("/order/basket/orderForm")
+    public String orderCreateForm(@RequestParam("productId") List<Long> basketProductId, Model model) {
+
+        model.addAttribute("orderForm", new OrderForm());
+        model.addAttribute("orderProducts", basketProductId);
+
+        return "/order/orderCreateForm";
     }
 }

@@ -30,9 +30,9 @@
 			<p th:text="${product.name}"></p>
 			<p th:text="|KRW ${product.price}|"></p>
 			<p th:text="${product.ingredient}"></p>
-			<form method="post" role="form" th:action="@{/order/{productId} (productId=${product.id})}"
+			<form method="post" role="form" th:action="@{/order/detail/orderForm}"
 						th:object="${orderProductForm}">
-				<input name="productId" th:value="${productId}" type="hidden"/>
+				<input name="productId" th:value="${product.id}" type="hidden"/>
 				<div class="form-group">
 					<label th:for="count">수량</label>
 					<input class="form-control" min="1" placeholder="1" th:field="*{count}" type="number"/>

@@ -19,7 +19,7 @@ public class OrderProductService {
     public OrderProduct findOne(Long orderProductId) { return orderProductRepository.findOne(orderProductId); }
 
     @Transactional
-    public Long orderProductFromDetail(Long productId, int count) {
+    public Long orderProduct(Long productId, int count) {
 
         Product product = productRepository.findOne(productId);
         OrderProduct orderProduct = OrderProduct.createOrderProduct(product, product.getPrice(), count);
