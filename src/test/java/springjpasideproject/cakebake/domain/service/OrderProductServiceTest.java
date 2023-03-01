@@ -27,23 +27,20 @@ public class OrderProductServiceTest {
 
     @Test
     public void testOrderProductService() throws Exception {
-
         //given
         Product product = createProduct("블루베리 케이크", "블루베리", "url", 20000, 10, "케이크");
         int count = 2;
 
         //when
-        Long orderProductId = orderProductService.orderProductFromDetail(product.getId(), count);
+        Long orderProductId = orderProductService.orderProduct(product.getId(), count);
 
         //then
         OrderProduct orderProduct = orderProductRepository.findOne(orderProductId);
 
         assertEquals(orderProduct.getOrderPrice(), 20000);
-
     }
 
     private Product createProduct(String name, String ingredient, String image, int price, int stockQuantity, String categoryName) {
-
         Category category = new Category(categoryName);
         Product product = Product.builder()
                 .name(name)
@@ -52,7 +49,7 @@ public class OrderProductServiceTest {
                 .price(price)
                 .stockQuantity(stockQuantity)
                 .category(category).build();
-        
+
         em.persist(product);
         return product;
     }

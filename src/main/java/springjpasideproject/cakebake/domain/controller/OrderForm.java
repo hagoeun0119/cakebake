@@ -4,8 +4,15 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter @Setter
 public class OrderForm {
+
+    private List<Long> productIdList = new ArrayList<>();
+
+    private List<Integer> productCountList = new ArrayList<>();
 
     @NotEmpty(message = "받으시는 분을 입력해주세요.")
     private String receiver;

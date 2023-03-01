@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springjpasideproject.cakebake.domain.Member;
-import springjpasideproject.cakebake.domain.Order;
-import springjpasideproject.cakebake.domain.Product;
-import springjpasideproject.cakebake.domain.SessionConstants;
+import springjpasideproject.cakebake.domain.*;
 import springjpasideproject.cakebake.domain.service.*;
 
 import java.util.List;
@@ -25,7 +22,6 @@ public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
     private final ProductService productService;
-    private final OrderProductService orderProductService;
 
     @GetMapping("/order")
     public String order(HttpServletRequest request,
@@ -63,37 +59,39 @@ public class OrderController {
         model.addAttribute("members", members);
         model.addAttribute("product", productDetail);
         model.addAttribute("orderProductForm", new OrderProductForm());
-
         return "products/productDetailForm";
     }
 
-    @PostMapping( "/order/{productId}")
-    public String productOrderFromDetail(@PathVariable("productId") Long productId, OrderProductForm form, RedirectAttributes redirect) {
+    @GetMapping("/order/detail/orderForm")
+    public String orderCreateForm(Model model,
+                                  @RequestParam Long productId,
+                                  @RequestParam int productCount) {
 
-        Long orderProductId = orderProductService.orderProductFromDetail(productId, form.getCount());
-        redirect.addAttribute("orderProductId", orderProductId);
-
-        return "redirect:/order/orderForm";
-    }
-
-    @GetMapping("/order/orderForm")
-    public String orderCreateForm(@RequestParam("orderProductId") Long orderProductId, Model model) {
-
-        model.addAttribute("orderForm", new OrderForm());
-        model.addAttribute("orderProductId", orderProductId);
-
+        OrderForm orderForm = new OrderForm();
+        orderForm.getProductIdList().add(productId);
+        orderForm.getProductCountList().add(productCount);
+        model.addAttribute("orderForm", orderForm);
         return "order/orderCreateForm";
     }
 
-    @PostMapping("/order/submit/{orderProductId}")
+    @PostMapping( "/order/detail/orderForm")
+    public String productOrderFromDetail(@RequestParam Long productId,
+                                         OrderProductForm orderProductForm, RedirectAttributes redirect) {
+
+        redirect.addAttribute("productId", productId);
+        redirect.addAttribute("productCount", orderProductForm.getCount());
+        return "redirect:/order/detail/orderForm";
+    }
+
+    @PostMapping("/order/submit")
     public String orderCreate(HttpServletRequest request,
-                              @PathVariable Long orderProductId,
+                              @RequestParam("productId") List<Long> productIdList,
+                              @RequestParam("productCount") List<Integer> productCountList,
                               @Valid OrderForm form) {
 
         HttpSession session = request.getSession(false);
-
         Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
-        orderService.orderFromDetail(loginMember, orderProductId, form.getReceiver(), form.getPhone(), form.getEmail(), form.getComment(), form.getBasicAddress(), form.getRestAddress(), form.getZipcode());
+        orderService.order(loginMember, productIdList, productCountList, form.getReceiver(), form.getPhone(), form.getEmail(), form.getComment(), form.getBasicAddress(), form.getRestAddress(), form.getZipcode());
         return "redirect:/";
     }
 

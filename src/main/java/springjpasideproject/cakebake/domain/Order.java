@@ -47,9 +47,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // 주문상태 [ORDER, CANCEL]
 
-    //==연관관계 메서드==//
-
-    // 핵심적으로 controll 하는 곳에 추가
     public void addOrderProduct(OrderProduct orderProduct) {
         orderProducts.add(orderProduct);
         orderProduct.addOrder(this);
@@ -60,28 +57,19 @@ public class Order {
         delivery.setOrder(this);
     }
 
-    //==생성 메서드==//
-    public static Order createOrder(Member member, Delivery delivery, String receiver, String phone, String email, String comment, OrderProduct... orderProducts) {
+    public static Order createOrder(Member member, Delivery delivery, String receiver, String phone, String email, String comment) {
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
-        for (OrderProduct orderProduct: orderProducts) {
-            order.addOrderProduct(orderProduct);
-        }
         order.setReceiver(receiver);
         order.setPhone(phone);
         order.setEmail(email);
         order.setComment(comment);
-
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.ORDER);
         return order;
     }
 
-    //==비즈니스 로직==//
-    /**
-     * 주문 취소
-     */
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
@@ -92,9 +80,6 @@ public class Order {
         }
     }
 
-    /**
-     * 주문 가격 조회
-     */
     public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderProduct orderProduct : orderProducts) {
