@@ -27,23 +27,14 @@ public class OrderController {
     public String order(HttpServletRequest request,
                         Model model) {
 
-        HttpSession session = request.getSession();
+        if (LoginService.loginCheck(request, model)) return "members/login";
 
-        if (session != null) {
-            Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+        HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
 
-            if (loginMember == null) {
-                model.addAttribute("loginForm", new LoginForm());
-                return "members/login";
-            }
-
-            List<Order> orders = orderService.findOrdersByUserId(loginMember.getId());
-            model.addAttribute("orders", orders);
-            return "order/orderList";
-        }
-
-        model.addAttribute("loginForm", new LoginForm());
-        return "members/login";
+        List<Order> orders = orderService.findOrdersByUserId(loginMember.getId());
+        model.addAttribute("orders", orders);
+        return "order/orderList";
     }
 
     @GetMapping("/product/{name}/{productId}/category/{category}/{categoryId}")
@@ -63,9 +54,12 @@ public class OrderController {
     }
 
     @GetMapping("/order/detail/orderForm")
-    public String orderCreateForm(Model model,
-                                  @RequestParam Long productId,
-                                  @RequestParam int productCount) {
+    public String orderCreateForm(@RequestParam Long productId,
+                                  @RequestParam int productCount,
+                                  HttpServletRequest request,
+                                  Model model) {
+
+        if (LoginService.loginCheck(request, model)) return "members/login";
 
         OrderForm orderForm = new OrderForm();
         orderForm.getProductIdList().add(productId);

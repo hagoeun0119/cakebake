@@ -28,6 +28,9 @@ public class BasketService {
     public List<BasketProduct> findAllBasketProduct(Long basketId) { return basketProductRepository.findAll(basketId); }
 
     @Transactional
+    public BasketProduct findOneBasketProduct(Long basketProductId) { return basketProductRepository.findOne(basketProductId); }
+
+    @Transactional
     public void createBasket(Basket basket) {
 
         // 중복되는 내역이 있는지 확인

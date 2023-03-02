@@ -35,12 +35,25 @@
 		<tbody>
 		<tr th:each="order : ${orders}">
 			<td th:text="${#temporals.format(order.orderDate, 'yyyy.MM.dd')}"></td>
-			<td th:each="orderProduct : ${order.orderProducts} " th:text="${orderProduct.product.name}"></td>
-			<td th:each="orderProduct : ${order.orderProducts} " th:text="${orderProduct.count}"></td>
-			<td th:each="orderProduct : ${order.orderProducts} " th:text="|KRW ${orderProduct.product.price}|"></td>
+			<td>
+				<ul th:each="orderProduct : ${order.orderProducts}">
+					<li th:text="${orderProduct.product.name}"></li>
+				</ul>
+			</td>
+			<td>
+				<ul th:each="orderProduct : ${order.orderProducts}">
+					<li th:text="${orderProduct.count}"></li>
+				</ul>
+			</td>
+			<td>
+				<ul th:each="orderProduct : ${order.orderProducts}">
+					<li th:text="|KRW ${orderProduct.product.price}|"></li>
+				</ul>
+			</td>
 			<td th:text="${order.status}"></td>
 			<td>
-				<form id="cancel-form" th:if="${order.status.name() == 'ORDER'}" th:action="@{/order/delete/{orderId} (orderId=${order.id})}" method="post">
+				<form id="cancel-form" method="post"
+							th:action="@{/order/delete/{orderId} (orderId=${order.id})}" th:if="${order.status.name() == 'ORDER'}">
 					<button class="delete-btn btn-lg" type="submit">
 						CANCEL
 					</button>

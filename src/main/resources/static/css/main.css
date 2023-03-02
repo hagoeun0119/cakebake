@@ -6,6 +6,9 @@
 
 ul, ol {
     list-style: none;
+    text-align: center;
+    margin: 0 !important;
+    padding: 5px 0 !important;
 }
 
 a {
@@ -255,7 +258,6 @@ form {
 td, th {
     vertical-align: middle;
     font: 400 18px/24px 'Montserrat', sans-serif;
-    padding: 30px 0;
     text-align: center;
     line-height: 3rem;
 }
