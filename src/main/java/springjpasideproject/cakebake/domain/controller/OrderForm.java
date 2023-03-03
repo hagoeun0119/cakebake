@@ -3,16 +3,15 @@ package springjpasideproject.cakebake.domain.controller;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
+import springjpasideproject.cakebake.domain.Product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter @Setter
 public class OrderForm {
 
-    private List<Long> productIdList = new ArrayList<>();
-
-    private List<Integer> productCountList = new ArrayList<>();
+    private Map<Product, Integer> productAndCountList = new HashMap<>();
 
     @NotEmpty(message = "받으시는 분을 입력해주세요.")
     private String receiver;

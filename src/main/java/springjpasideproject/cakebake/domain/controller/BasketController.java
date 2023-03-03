@@ -73,8 +73,7 @@ public class BasketController {
 
         for (Long basketProductId : basketProductIdList) {
             BasketProduct basketProduct = basketService.findOneBasketProduct(basketProductId);
-            orderForm.getProductIdList().add(basketProduct.getProduct().getId());
-            orderForm.getProductCountList().add(basketProduct.getCount());
+            orderForm.getProductAndCountList().put(basketProduct.getProduct(), basketProduct.getCount());
             basketService.deleteBasketProduct(basketProductId);
         }
 

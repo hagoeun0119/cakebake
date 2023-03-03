@@ -62,8 +62,8 @@ public class OrderController {
         if (LoginService.loginCheck(request, model)) return "members/login";
 
         OrderForm orderForm = new OrderForm();
-        orderForm.getProductIdList().add(productId);
-        orderForm.getProductCountList().add(productCount);
+        Product product = productService.findOne(productId);
+        orderForm.getProductAndCountList().put(product, productCount);
         model.addAttribute("orderForm", orderForm);
         return "order/orderCreateForm";
     }

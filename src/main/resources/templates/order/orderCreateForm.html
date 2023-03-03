@@ -22,12 +22,25 @@
 		<nav th:replace="fragments/nav :: nav"></nav>
 	</div>
 	<form th:action="@{/order/submit}" method="post" role="form" th:object="${orderForm}">
-			<div th:each="productId : *{productIdList}">
-				<input name="productId" th:value="${productId}" type="hidden" />
-			</div>
-			<div th:each="productCount : *{productCountList}">
-				<input name="productCount" th:value="${productCount}" type="hidden" />
-			</div>
+		<table class="table">
+			<thead>
+			<tr>
+				<th>이미지</th>
+				<th>상품정보</th>
+				<th>판매가</th>
+				<th>수량</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="productAndCount : *{productAndCountList}">
+				<input name="productId" th:value="${productAndCount.key.id}" type="hidden" />
+				<td class="w-25"><img th:alt="${productAndCount.key.name}" th:src="${productAndCount.key.image}"></td>
+				<td th:text="${productAndCount.key.name}"></td>
+				<td th:text="|KRW ${productAndCount.key.price}|"></td>
+				<td name="productCount" th:text="${productAndCount.value}"></td>
+			</tr>
+			</tbody>
+		</table>
 		<div class="form-group">
 			<label th:for="receiver">받으시는 분</label>
 			<input class="form-control" placeholder="name" th:field="*{receiver}" type="text">
