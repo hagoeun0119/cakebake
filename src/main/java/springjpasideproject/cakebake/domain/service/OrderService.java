@@ -22,10 +22,11 @@ public class OrderService {
     @Transactional
     public Long order(Member member, List<Long> productIdList, List<Integer> productCountList, String receiver, String phone, String email, String comment, String basicAddress, String restAddress, String zipcode) {
 
-        Delivery delivery = new Delivery();
         Address address = new Address(basicAddress, restAddress, zipcode);
-        delivery.setAddress(address);
-        delivery.setStatus(DeliveryStatus.READY);
+        final Delivery delivery = Delivery.createAddressAndStatusBuilder()
+                .address(address)
+                .status(DeliveryStatus.READY)
+                .build();
 
         Order order = Order.createOrder(member, delivery, receiver, phone, email, comment);
 

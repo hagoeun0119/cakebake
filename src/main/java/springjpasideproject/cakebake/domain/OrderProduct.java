@@ -35,7 +35,6 @@ public class OrderProduct {
     }
 
     public static OrderProduct createOrderProduct(Product product, int orderPrice, int count) {
-
         OrderProduct orderProduct = new OrderProduct(product, orderPrice, count);
         product.removeStock(count);
         return orderProduct;

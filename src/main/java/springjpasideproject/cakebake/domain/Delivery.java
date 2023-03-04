@@ -1,13 +1,13 @@
 package springjpasideproject.cakebake.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import static jakarta.persistence.FetchType.*;
 
 @Entity
-@Setter @Getter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Delivery {
 
     @Id @GeneratedValue
@@ -22,5 +22,16 @@ public class Delivery {
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
+
+    @Builder(builderClassName = "createOrderBuilder", builderMethodName = "createOrderBuilder")
+    public Delivery(Order order) {
+        this.order = order;
+    }
+
+    @Builder(builderClassName = "createAddressAndStatusBuilder", builderMethodName = "createAddressAndStatusBuilder")
+    public Delivery(Address address, DeliveryStatus status) {
+        this.address = address;
+        this.status = status;
+    }
 
 }

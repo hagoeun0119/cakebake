@@ -172,6 +172,7 @@ form {
 .log-info li {
     display: inline-block;
     margin-right: 14px;
+    margin-bottom: 14px;
     line-height: 18px;
     font-size: 11px;
     letter-spacing: .04em;
@@ -265,6 +266,10 @@ td, th {
 td img {
     width: 100%;
     display: block;
+}
+
+#table-top {
+    margin-top: 10px;
 }
 
 /*----- orderList ------*/

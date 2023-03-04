@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 
 import static jakarta.persistence.FetchType.*;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
@@ -52,21 +49,17 @@ public class Order {
         orderProduct.addOrder(this);
     }
 
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
-        delivery.setOrder(this);
-    }
-
+    @Builder
     public static Order createOrder(Member member, Delivery delivery, String receiver, String phone, String email, String comment) {
         Order order = new Order();
-        order.setMember(member);
-        order.setDelivery(delivery);
-        order.setReceiver(receiver);
-        order.setPhone(phone);
-        order.setEmail(email);
-        order.setComment(comment);
-        order.setOrderDate(LocalDateTime.now());
-        order.setStatus(OrderStatus.ORDER);
+        order.member = member;
+        order.delivery = delivery;
+        order.receiver = receiver;
+        order.phone = phone;
+        order.email = email;
+        order.comment = comment;
+        order.orderDate = LocalDateTime.now();
+        order.status = OrderStatus.ORDER;
         return order;
     }
 
@@ -74,7 +67,7 @@ public class Order {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }
-        this.setStatus(OrderStatus.CANCEL);
+        this.status = OrderStatus.CANCEL;
         for (OrderProduct orderProduct : orderProducts) {
             orderProduct.cancel();
         }
