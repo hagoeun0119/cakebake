@@ -33,7 +33,7 @@
 			</div>
 			<ul class="log-info">
 				<li>
-					<a href="/#">FORGOT ID</a>
+					<a href="/member/id/find">FORGOT ID</a>
 				</li>
 				<li>
 					<a href="/#">FORGOT PASSWORD</a>
@@ -54,6 +54,13 @@
 <script>
     $(document).ready(function() {
         let message = "[[${loginFailMessage}]]";
+        if (message != "") {
+            alert(message);
+        }
+    })
+
+    $(document).ready(function() {
+        let message = "[[${findIdFailMessage}]]";
         if (message != "") {
             alert(message);
         }

@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.SessionConstants;
@@ -96,5 +97,37 @@ public class MemberController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/member/id/find")
+    public String findId(Model model) {
+        model.addAttribute("findIdForm", new FindIdForm());
+        return "members/findId";
+    }
+
+    @PostMapping("/member/id/find")
+    public String findId(@Valid FindIdForm findIdForm,
+                         BindingResult result,
+                         RedirectAttributes redirect,
+                         Model model) {
+
+        Member member = memberService.findId(findIdForm.getName(), findIdForm.getEmail());
+
+        if (member == null) {
+            result.reject("findIdFail", "가입 된 회원이 존재하지 않습니다.");
+            model.addAttribute("findIdFailMessage", "가입 된 회원이 존재하지 않습니다.");
+            model.addAttribute("loginForm", new LoginForm());
+            return "members/login";
+        }
+
+        redirect.addAttribute("findId", member.getUserId());
+        return "redirect:/member/id/find/show";
+    }
+
+    @GetMapping("/member/id/find/show")
+    public String showId(@RequestParam String findId,
+                         Model model) {
+        model.addAttribute("findId", findId);
+        return "members/showFindId";
     }
 }
