@@ -156,14 +156,14 @@ form {
 
 /*----- login-page -----*/
 
-.login, .find-id, .show-find{
+.login, .find-form, .show-find{
     text-align: center;
     padding-top: 5%;
     margin: auto;
     width: 26%;
 }
 
-.login h3, .find-id h3, .show-find h3 {
+.login h3, .find-form h3, .show-find h3 {
     margin: 0 0 28px;
     letter-spacing: -.04em;
     font: 600 30px 'Montserrat', sans-serif !important;
@@ -184,7 +184,7 @@ form {
     letter-spacing: .04em;
 }
 
-.login-form-control, .find-id-form-control {
+.login-form-control, .find-form-control {
     width: 100%;
     height: 42px;
     line-height: 42px;

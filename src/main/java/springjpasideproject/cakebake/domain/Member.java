@@ -38,4 +38,8 @@ public class Member {
         this.phone = phone;
         this.email = email;
     }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }

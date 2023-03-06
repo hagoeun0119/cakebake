@@ -39,19 +39,6 @@ public class MemberService {
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
-
-    public Member login(String userId, String password) {
-        return memberRepository.findByUserId(userId)
-                .filter(m -> m.getPassword().equals(password))
-                .orElse(null);
-
-    }
-
-    public Member findId(String name, String email) {
-        return memberRepository.findByName(name)
-                .filter(m -> m.getEmail().equals(email))
-                .orElse(null);
-    }
 }
 
 

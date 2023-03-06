@@ -24,19 +24,19 @@
 	</div>
 	<section class="login">
 		<h3>Log-in</h3>
-		<form th:action="@{/member/login}" method="post" role="form" th:object="${loginForm}">
+		<form method="post" role="form" th:action="@{/member/login}" th:object="${loginForm}">
 			<div class="form-group">
-				<input class="login-form-control" placeholder="ID" th:field="*{userId}" type="text" />
+				<input class="login-form-control" placeholder="ID" th:field="*{userId}" type="text"/>
 			</div>
 			<div class="form-group">
-				<input class="login-form-control" placeholder="PASSWORD" th:field="*{password}" type="text" />
+				<input class="login-form-control" placeholder="PASSWORD" th:field="*{password}" type="text"/>
 			</div>
 			<ul class="log-info">
 				<li>
 					<a href="/member/id/find">FORGOT ID</a>
 				</li>
 				<li>
-					<a href="/#">FORGOT PASSWORD</a>
+					<a href="/member/password/find">FORGOT PASSWORD</a>
 				</li>
 			</ul>
 			<div class="middle-box">
@@ -52,15 +52,29 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         let message = "[[${loginFailMessage}]]";
         if (message != "") {
             alert(message);
         }
     })
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         let message = "[[${findIdFailMessage}]]";
+        if (message != "") {
+            alert(message);
+        }
+    })
+
+    $(document).ready(function () {
+        let message = "[[${findPasswordFailMessage}]]";
+        if (message != "") {
+            alert(message);
+        }
+    })
+
+    $(document).ready(function () {
+        let message = "[[${changePasswordMessage}]]";
         if (message != "") {
             alert(message);
         }
