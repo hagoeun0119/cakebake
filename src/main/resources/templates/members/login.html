@@ -53,28 +53,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
     $(document).ready(function () {
-        let message = "[[${loginFailMessage}]]";
-        if (message != "") {
-            alert(message);
-        }
-    })
-
-    $(document).ready(function () {
-        let message = "[[${findIdFailMessage}]]";
-        if (message != "") {
-            alert(message);
-        }
-    })
-
-    $(document).ready(function () {
-        let message = "[[${findPasswordFailMessage}]]";
-        if (message != "") {
-            alert(message);
-        }
-    })
-
-    $(document).ready(function () {
-        let message = "[[${changePasswordMessage}]]";
+        const message = "[[${findPasswordFailMessage}]]" || "[[${changePasswordMessage}]]" || "[[${findIdFailMessage}]]" ||  "[[${loginFailMessage}]]";
         if (message != "") {
             alert(message);
         }

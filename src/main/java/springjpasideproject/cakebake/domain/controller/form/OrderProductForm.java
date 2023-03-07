@@ -1,4 +1,4 @@
-package springjpasideproject.cakebake.domain.controller;
+package springjpasideproject.cakebake.domain.controller.form;
 
 
 import jakarta.validation.constraints.NotEmpty;

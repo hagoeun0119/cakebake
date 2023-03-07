@@ -15,11 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.SessionConstants;
+import springjpasideproject.cakebake.domain.controller.form.*;
 import springjpasideproject.cakebake.domain.service.BasketService;
 import springjpasideproject.cakebake.domain.service.LoginService;
 import springjpasideproject.cakebake.domain.service.MemberService;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,36 +27,28 @@ public class MemberController {
 
     private final MemberService memberService;
     private final BasketService basketService;
-
     private final LoginService loginService;
 
     @GetMapping("/member/join")
-    public String createForm(Model model) {
+    public String createMemberForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
         return "members/createMemberForm";
     }
 
     @PostMapping("/member/join")
-    public String create(@Valid MemberForm form, BindingResult result) {
+    public String createMember(@Valid MemberForm memberForm, BindingResult result) {
 
         if (result.hasErrors()) {
             return "members/createMemberForm";
         }
 
         Basket basket = new Basket();
-        Member member = new Member(basket, form.getUserId(), form.getPassword(), form.getName(), form.getPhone(), form.getEmail());
+        Member member = new Member(basket, memberForm.getUserId(), memberForm.getPassword(), memberForm.getName(), memberForm.getPhone(), memberForm.getEmail());
         memberService.join(member);
 
         basket.addMemberToBasket(member);
         basketService.createBasket(basket);
         return "redirect:/";
-    }
-
-    @GetMapping("/member")
-    public String list(Model model) {
-        List<Member> members = memberService.findMembers();
-        model.addAttribute("members", members);
-        return "members/memberList";
     }
 
     @GetMapping("/member/login")
@@ -67,7 +58,7 @@ public class MemberController {
     }
 
     @PostMapping("/member/login")
-    public String login(@Valid LoginForm form,
+    public String login(@Valid LoginForm loginForm,
                         BindingResult result,
                         HttpServletRequest req,
                         @RequestParam(defaultValue = "/") String redirectURL,
@@ -77,7 +68,7 @@ public class MemberController {
             return "members/login";
         }
 
-        Member loginMember = loginService.login(form.getUserId(), form.getPassword());
+        Member loginMember = loginService.login(loginForm.getUserId(), loginForm.getPassword());
 
         if (loginMember == null) {
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
@@ -87,7 +78,6 @@ public class MemberController {
 
         HttpSession session = req.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-
         return "redirect:" + redirectURL;
     }
 
@@ -95,8 +85,9 @@ public class MemberController {
     public String logout(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
+
         if (session != null) {
-            session.invalidate();   // 세션 날림
+            session.invalidate();
         }
 
         return "redirect:/";
@@ -145,6 +136,11 @@ public class MemberController {
                                      RedirectAttributes redirect,
                                      BindingResult result,
                                      Model model) {
+
+        if (result.hasErrors()) {
+            return "members/findPassword";
+        }
+
         if (loginService.findByUserIdAndName(findPasswordForm.getUserId(), findPasswordForm.getName()) == null) {
             result.reject("findPasswordFail", "가입 된 회원이 존재하지 않습니다.");
             model.addAttribute("findPasswordFailMessage", "가입 된 회원이 존재하지 않습니다.");
@@ -172,7 +168,12 @@ public class MemberController {
     public String changePassword(@RequestParam String userId,
                                  @RequestParam String name,
                                  @Valid ChangePasswordForm changePasswordForm,
+                                 BindingResult result,
                                  Model model) {
+
+        if (result.hasErrors()) {
+            return "members/changePassword";
+        }
 
         if (!changePasswordForm.getPassword().equals(changePasswordForm.getCheckPassword())) {
             model.addAttribute("changePasswordFailMessage", "비밀번호가 일치하지 않습니다.");
@@ -180,11 +181,9 @@ public class MemberController {
             return "members/changePassword";
         }
 
-        log.info(changePasswordForm.getUserId(), changePasswordForm.getName());
-
         loginService.changePassword(userId, name, changePasswordForm.getPassword());
         model.addAttribute("changePasswordMessage", "비밀번호를 변경하였습니다.");
         model.addAttribute("loginForm", new LoginForm());
-        return "/members/login";
+        return "members/login";
     }
 }

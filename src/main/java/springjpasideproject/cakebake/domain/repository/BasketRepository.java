@@ -22,5 +22,4 @@ public class BasketRepository {
                 .setParameter("userPrimaryId", userPrimaryId)
                 .getResultList();
     }
-
 }

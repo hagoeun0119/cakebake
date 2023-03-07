@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import springjpasideproject.cakebake.domain.Category;
+import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.Product;
+import springjpasideproject.cakebake.domain.controller.form.OrderProductForm;
+import springjpasideproject.cakebake.domain.controller.form.ProductForm;
 import springjpasideproject.cakebake.domain.service.CategoryService;
+import springjpasideproject.cakebake.domain.service.MemberService;
 import springjpasideproject.cakebake.domain.service.ProductService;
 
 import java.util.List;
@@ -20,10 +24,8 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final MemberService memberService;
 
-    /**
-     * 제품 생성
-     */
     @GetMapping("/products/new")
     public String registerProductForm(Model model) {
         model.addAttribute("form", new ProductForm());
@@ -32,17 +34,12 @@ public class ProductController {
 
     @PostMapping("/products/new")
     public String registerProduct(ProductForm form) {
-
         Category category = categoryService.createCategory(form.getCategory());
         Product product = productService.registerProduct(form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity(), category);
         category.getProducts().add(product);
-
         return "redirect:/products";
     }
 
-    /**
-     * 제품 리스트
-     */
     @GetMapping("/products")
     public String list(Model model) {
         List<Product> products = productService.findProducts();
@@ -57,9 +54,22 @@ public class ProductController {
         return "category/productListByCategory";
     }
 
-    /**
-     * 제품 수정
-     */
+    @GetMapping("/product/{name}/{productId}/category/{category}/{categoryId}")
+    public String productDetailForm(@PathVariable("name") String name,
+                                    @PathVariable("productId") Long productId,
+                                    @PathVariable("category") String categoryName,
+                                    @PathVariable("categoryId") Long categoryId,
+                                    Model model) {
+
+        Product productDetail = productService.findOne(productId);
+        List<Member> members = memberService.findMembers();
+
+        model.addAttribute("members", members);
+        model.addAttribute("product", productDetail);
+        model.addAttribute("orderProductForm", new OrderProductForm());
+        return "products/productDetailForm";
+    }
+
     @GetMapping("/products/{productId}/edit")
     public String updateProductForm(@PathVariable("productId") Long productId, Model model) {
 
@@ -82,5 +92,4 @@ public class ProductController {
         productService.updateProduct(productId, form.getName(), form.getIngredient(), form.getImage(), form.getPrice(), form.getStockQuantity(), form.getCategory());
         return "redirect:/products";
     }
-
 }

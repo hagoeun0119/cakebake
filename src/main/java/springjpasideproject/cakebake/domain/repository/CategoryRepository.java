@@ -18,10 +18,8 @@ public class CategoryRepository {
     public Category findOne(Long id) { return em.find(Category.class, id); }
 
     public List<Category> findByName(String name) {
-
         return em.createQuery("select c from Category c where c.name = :name", Category.class)
                 .setParameter("name", name)
                 .getResultList();
     }
-
 }

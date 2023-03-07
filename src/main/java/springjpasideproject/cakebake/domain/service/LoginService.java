@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.SessionConstants;
-import springjpasideproject.cakebake.domain.controller.LoginForm;
+import springjpasideproject.cakebake.domain.controller.form.LoginForm;
 import springjpasideproject.cakebake.domain.repository.MemberRepository;
 
 @Service

@@ -25,9 +25,6 @@ public class ProductRepository {
         return em.find(Product.class, id);
     }
 
-    /**
-     * find product by category
-     */
     public List<Product> findProductsByCategory(String category) {
         String findQuery = "select p from Product as p INNER JOIN p.category c WHERE c.name = :category";
         return em.createQuery(findQuery, Product.class)

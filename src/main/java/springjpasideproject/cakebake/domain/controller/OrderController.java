@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springjpasideproject.cakebake.domain.*;
+import springjpasideproject.cakebake.domain.controller.form.OrderForm;
+import springjpasideproject.cakebake.domain.controller.form.OrderProductForm;
 import springjpasideproject.cakebake.domain.service.*;
 
 import java.util.List;
@@ -20,8 +22,8 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
-    private final MemberService memberService;
     private final ProductService productService;
+    private final BasketService basketService;
 
     @GetMapping("/order")
     public String order(HttpServletRequest request,
@@ -35,22 +37,6 @@ public class OrderController {
         List<Order> orders = orderService.findOrdersByUserId(loginMember.getId());
         model.addAttribute("orders", orders);
         return "order/orderList";
-    }
-
-    @GetMapping("/product/{name}/{productId}/category/{category}/{categoryId}")
-    public String productDetailForm(@PathVariable("name") String name,
-                                    @PathVariable("productId") Long productId,
-                                    @PathVariable("category") String categoryName,
-                                    @PathVariable("categoryId") Long categoryId,
-                                    Model model) {
-
-        Product productDetail = productService.findOne(productId);
-        List<Member> members = memberService.findMembers();
-
-        model.addAttribute("members", members);
-        model.addAttribute("product", productDetail);
-        model.addAttribute("orderProductForm", new OrderProductForm());
-        return "products/productDetailForm";
     }
 
     @GetMapping("/order/detail/orderForm")
@@ -95,5 +81,55 @@ public class OrderController {
         return "redirect:/order";
     }
 
+    @GetMapping("/order/basket")
+    public String basket(Model model, HttpServletRequest request) {
+
+        if (LoginService.loginCheck(request, model)) return "members/login";
+
+        HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+
+        List<BasketProduct> basketProducts = basketService.findAllBasketProduct(loginMember.getBasket().getId());
+        model.addAttribute("basketProducts", basketProducts);
+
+        return "order/basket";
+    }
+
+    @PostMapping("/order/basket")
+    public String addProductToBasket(@RequestParam Long productId, OrderProductForm form, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+        List<BasketProduct> basketProducts = basketService.createBasketProduct(productId, loginMember.getId(), form.getCount());
+        model.addAttribute("basketProducts", basketProducts);
+        return "order/basket";
+    }
+
+    @GetMapping("/order/basket/orderForm")
+    public String orderCreateForm(@RequestParam List<Long> basketProductIdList,
+                                  HttpServletRequest request,
+                                  Model model) {
+
+        if (LoginService.loginCheck(request, model)) return "members/login";
+
+        OrderForm orderForm = new OrderForm();
+
+        for (Long basketProductId : basketProductIdList) {
+            BasketProduct basketProduct = basketService.findOneBasketProduct(basketProductId);
+            orderForm.getProductAndCountList().put(basketProduct.getProduct(), basketProduct.getCount());
+            basketService.deleteBasketProduct(basketProductId);
+        }
+
+        model.addAttribute("orderForm", orderForm);
+        return "order/orderCreateForm";
+    }
+
+    @PostMapping("/order/basket/orderForm")
+    public String orderCreateForm(@RequestParam("basketProductId") List<Long> basketProductIdList,
+                                  RedirectAttributes redirect) {
+
+        redirect.addAttribute("basketProductIdList", basketProductIdList);
+        return "redirect:/order/basket/orderForm";
+    }
 }
 
