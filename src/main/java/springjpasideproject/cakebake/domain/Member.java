@@ -1,13 +1,12 @@
 package springjpasideproject.cakebake.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
@@ -28,16 +27,6 @@ public class Member {
     private String phone;
 
     private String email;
-
-    @Builder
-    public Member(Basket basket, String userId, String password, String name, String phone, String email) {
-        this.basket = basket;
-        this.userId = userId;
-        this.password = password;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-    }
 
     public void changePassword(String password) {
         this.password = password;

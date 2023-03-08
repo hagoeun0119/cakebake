@@ -1,12 +1,15 @@
 package springjpasideproject.cakebake.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BasketProduct {
 
     @Id @GeneratedValue
@@ -19,16 +22,7 @@ public class BasketProduct {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id")
-    private Product Product;
+    private Product product;
 
     private int count;
-
-    protected BasketProduct() {
-    }
-
-    public BasketProduct(Basket basket, Product Product, int count) {
-        this.basket = basket;
-        this.Product = Product;
-        this.count = count;
-    }
 }

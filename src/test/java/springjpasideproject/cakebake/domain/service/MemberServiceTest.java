@@ -31,8 +31,14 @@ public class MemberServiceTest {
     public void 회원가입() throws Exception {
         //given
         Basket basket = new Basket();
-        Member member = new Member(basket, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
-
+        Member member = Member.builder()
+                .basket(basket)
+                .userId("1111")
+                .password("1234")
+                .name("kim")
+                .phone("010-0000-0000")
+                .email("kim@naver.com")
+                .build();
         //when
         Long saveId = memberService.join(member);
 
@@ -45,10 +51,24 @@ public class MemberServiceTest {
     public void 중복_확인() throws Exception {
         //given
         Basket basket1 = new Basket();
-        Member member1 = new Member(basket1, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
+        Member member1 = Member.builder()
+                .basket(basket1)
+                .userId("1111")
+                .password("1234")
+                .name("kim")
+                .phone("010-0000-0000")
+                .email("kim@naver.com")
+                .build();
 
         Basket basket2 = new Basket();
-        Member member2 = new Member(basket2, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
+        Member member2 = Member.builder()
+                .basket(basket2)
+                .userId("1111")
+                .password("1234")
+                .name("kim")
+                .phone("010-0000-0000")
+                .email("kim@naver.com")
+                .build();
 
         //when
         memberService.join(member1);

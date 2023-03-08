@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,6 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class OrderController {
 
     private final OrderService orderService;
@@ -29,7 +27,7 @@ public class OrderController {
     public String order(HttpServletRequest request,
                         Model model) {
 
-        if (LoginService.loginCheck(request, model)) return "members/login";
+        if (LoginService.loginCheck(request, model)) return "members/loginForm";
 
         HttpSession session = request.getSession(false);
         Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
@@ -45,7 +43,7 @@ public class OrderController {
                                   HttpServletRequest request,
                                   Model model) {
 
-        if (LoginService.loginCheck(request, model)) return "members/login";
+        if (LoginService.loginCheck(request, model)) return "members/loginForm";
 
         OrderForm orderForm = new OrderForm();
         Product product = productService.findOne(productId);
@@ -84,7 +82,7 @@ public class OrderController {
     @GetMapping("/order/basket")
     public String basket(Model model, HttpServletRequest request) {
 
-        if (LoginService.loginCheck(request, model)) return "members/login";
+        if (LoginService.loginCheck(request, model)) return "members/loginForm";
 
         HttpSession session = request.getSession(false);
         Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
@@ -110,7 +108,7 @@ public class OrderController {
                                   HttpServletRequest request,
                                   Model model) {
 
-        if (LoginService.loginCheck(request, model)) return "members/login";
+        if (LoginService.loginCheck(request, model)) return "members/loginForm";
 
         OrderForm orderForm = new OrderForm();
 

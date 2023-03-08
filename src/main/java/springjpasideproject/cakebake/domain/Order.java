@@ -49,7 +49,6 @@ public class Order {
         orderProduct.addOrder(this);
     }
 
-    @Builder
     public static Order createOrder(Member member, Delivery delivery, String receiver, String phone, String email, String comment) {
         Order order = new Order();
         order.member = member;

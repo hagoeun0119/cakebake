@@ -31,27 +31,24 @@ public class BasketService {
     public BasketProduct findOneBasketProduct(Long basketProductId) { return basketProductRepository.findOne(basketProductId); }
 
     @Transactional
-    public void createBasket(Basket basket) {
-
-        // 중복되는 내역이 있는지 확인
-        basketRepository.save(basket);
-
-    }
+    public void createBasket(Basket basket) { basketRepository.save(basket); }
 
     @Transactional
     public List<BasketProduct> createBasketProduct(Long productId, Long userPrimaryId, int count) {
-
         Product product = productRepository.findOne(productId);
         Basket basket = basketRepository.findByUserPrimaryId(userPrimaryId).get(0);
-        BasketProduct basketProduct = new BasketProduct(basket, product, count);
+        BasketProduct basketProduct = BasketProduct.builder()
+                                                    .basket(basket)
+                                                    .product(product)
+                                                    .count(count)
+                                                    .build();
+
         basket.getBasketProducts().add(basketProduct);
         basketProductRepository.save(basketProduct);
-
         return basket.getBasketProducts();
     }
 
     public void deleteBasketProduct(Long basketProductId) {
-
         BasketProduct basketProduct = basketProductRepository.findOne(basketProductId);
         basketProductRepository.delete(basketProduct);
     }

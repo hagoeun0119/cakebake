@@ -4,6 +4,7 @@ package springjpasideproject.cakebake.domain;
 import static jakarta.persistence.FetchType.*;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,6 +29,7 @@ public class OrderProduct {
 
     private int count;
 
+    @Builder
     public OrderProduct(Product product, int orderPrice, int count) {
         this.product = product;
         this.orderPrice = orderPrice;
@@ -35,7 +37,11 @@ public class OrderProduct {
     }
 
     public static OrderProduct createOrderProduct(Product product, int orderPrice, int count) {
-        OrderProduct orderProduct = new OrderProduct(product, orderPrice, count);
+        OrderProduct orderProduct = OrderProduct.builder()
+                .product(product)
+                .orderPrice(orderPrice)
+                .count(count)
+                .build();
         product.removeStock(count);
         return orderProduct;
     }

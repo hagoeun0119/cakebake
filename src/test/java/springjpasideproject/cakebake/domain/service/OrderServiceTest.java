@@ -100,7 +100,14 @@ public class OrderServiceTest {
 
     private Member createMember() {
         Basket basket = new Basket();
-        Member member = new Member(basket, "hi1234", "Kim", "0123", "010-0000-0000", "kim@naver.com");
+        Member member = Member.builder()
+                .basket(basket)
+                .userId("1111")
+                .password("1234")
+                .name("kim")
+                .phone("010-0000-0000")
+                .email("kim@naver.com")
+                .build();
         em.persist(member);
         return member;
     }
@@ -116,6 +123,4 @@ public class OrderServiceTest {
         countList.add(count);
         return countList;
     }
-
-
 }

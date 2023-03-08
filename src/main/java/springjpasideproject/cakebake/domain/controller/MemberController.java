@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +21,6 @@ import springjpasideproject.cakebake.domain.service.MemberService;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -43,9 +41,16 @@ public class MemberController {
         }
 
         Basket basket = new Basket();
-        Member member = new Member(basket, memberForm.getUserId(), memberForm.getPassword(), memberForm.getName(), memberForm.getPhone(), memberForm.getEmail());
-        memberService.join(member);
+        Member member = Member.builder()
+                .basket(basket)
+                .userId(memberForm.getUserId())
+                .password(memberForm.getPassword())
+                .name(memberForm.getName())
+                .phone(memberForm.getPhone())
+                .email(memberForm.getEmail())
+                .build();
 
+        memberService.join(member);
         basket.addMemberToBasket(member);
         basketService.createBasket(basket);
         return "redirect:/";
@@ -54,7 +59,7 @@ public class MemberController {
     @GetMapping("/member/login")
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
-        return "members/login";
+        return "members/loginForm";
     }
 
     @PostMapping("/member/login")
@@ -65,7 +70,7 @@ public class MemberController {
                         Model model) {
 
         if (result.hasErrors()) {
-            return "members/login";
+            return "members/loginForm";
         }
 
         Member loginMember = loginService.login(loginForm.getUserId(), loginForm.getPassword());
@@ -73,7 +78,7 @@ public class MemberController {
         if (loginMember == null) {
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             model.addAttribute("loginFailMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            return "members/login";
+            return "members/loginForm";
         }
 
         HttpSession session = req.getSession();
@@ -96,7 +101,7 @@ public class MemberController {
     @GetMapping("/member/id/find")
     public String findId(Model model) {
         model.addAttribute("findIdForm", new FindIdForm());
-        return "members/findId";
+        return "members/findIdForm";
     }
 
     @PostMapping("/member/id/find")
@@ -111,7 +116,7 @@ public class MemberController {
             result.reject("findIdFail", "가입 된 회원이 존재하지 않습니다.");
             model.addAttribute("findIdFailMessage", "가입 된 회원이 존재하지 않습니다.");
             model.addAttribute("loginForm", new LoginForm());
-            return "members/login";
+            return "members/loginForm";
         }
 
         redirect.addAttribute("findId", member.getUserId());
@@ -122,13 +127,13 @@ public class MemberController {
     public String showId(@RequestParam String findId,
                          Model model) {
         model.addAttribute("findId", findId);
-        return "members/showFindId";
+        return "members/showFindIdForm";
     }
 
     @GetMapping("/member/password/find")
     public String findPassword(Model model) {
         model.addAttribute("findPasswordForm", new FindPasswordForm());
-        return "members/findPassword";
+        return "members/findPasswordForm";
     }
 
     @PostMapping("/member/password/find")
@@ -138,14 +143,14 @@ public class MemberController {
                                      Model model) {
 
         if (result.hasErrors()) {
-            return "members/findPassword";
+            return "members/findPasswordForm";
         }
 
         if (loginService.findByUserIdAndName(findPasswordForm.getUserId(), findPasswordForm.getName()) == null) {
             result.reject("findPasswordFail", "가입 된 회원이 존재하지 않습니다.");
             model.addAttribute("findPasswordFailMessage", "가입 된 회원이 존재하지 않습니다.");
             model.addAttribute("loginForm", new LoginForm());
-            return "/members/login";
+            return "/members/loginForm";
         }
 
         redirect.addAttribute("userId", findPasswordForm.getUserId());
@@ -161,7 +166,7 @@ public class MemberController {
         changePasswordForm.setUserId(userId);
         changePasswordForm.setName(name);
         model.addAttribute("changePasswordForm", changePasswordForm);
-        return "members/changePassword";
+        return "members/changePasswordForm";
     }
 
     @PostMapping("/member/password/change")
@@ -172,18 +177,18 @@ public class MemberController {
                                  Model model) {
 
         if (result.hasErrors()) {
-            return "members/changePassword";
+            return "members/changePasswordForm";
         }
 
         if (!changePasswordForm.getPassword().equals(changePasswordForm.getCheckPassword())) {
             model.addAttribute("changePasswordFailMessage", "비밀번호가 일치하지 않습니다.");
             model.addAttribute("changePasswordFailForm", new ChangePasswordForm());
-            return "members/changePassword";
+            return "members/changePasswordForm";
         }
 
         loginService.changePassword(userId, name, changePasswordForm.getPassword());
         model.addAttribute("changePasswordMessage", "비밀번호를 변경하였습니다.");
         model.addAttribute("loginForm", new LoginForm());
-        return "members/login";
+        return "members/loginForm";
     }
 }

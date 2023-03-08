@@ -45,8 +45,8 @@ public class ProductService {
             }
         }
 
-        product.updateProduct(name, ingredient, image, price, stockQuantity, categoryList.get(0));
-        categoryList.get(0).getProducts().add(product);
+        Product changeProduct = product.updateProduct(name, ingredient, image, price, stockQuantity, categoryList.get(0));
+        categoryList.get(0).getProducts().add(changeProduct);
     }
 
     public List<Product> findProducts() {
