@@ -86,7 +86,10 @@ public class OrderServiceTest {
     }
 
     private Product createProduct(String name, String ingredient, String image, int price, int stockQuantity, String categoryName) {
-        Category category = new Category(categoryName);
+        Category category = Category.builder()
+                .name(categoryName)
+                .build();
+
         Product product = Product.builder()
                 .name(name)
                 .ingredient(ingredient)
@@ -94,6 +97,7 @@ public class OrderServiceTest {
                 .price(price)
                 .stockQuantity(stockQuantity)
                 .category(category).build();
+
         em.persist(product);
         return product;
     }

@@ -34,10 +34,11 @@ public class MemberController {
     }
 
     @PostMapping("/member/join")
-    public String createMember(@Valid MemberForm memberForm, BindingResult result) {
+    public String createMember(@Valid MemberForm memberForm,
+                               BindingResult result) {
 
         if (result.hasErrors()) {
-            return "members/createMemberForm";
+            return "redirect:/member/join";
         }
 
         Basket basket = new Basket();
@@ -66,27 +67,26 @@ public class MemberController {
     public String login(@Valid LoginForm loginForm,
                         BindingResult result,
                         HttpServletRequest req,
-                        @RequestParam(defaultValue = "/") String redirectURL,
-                        Model model) {
+                        RedirectAttributes redirect) {
 
         if (result.hasErrors()) {
-            return "members/loginForm";
+            return "redirect:/member/login";
         }
 
         Member loginMember = loginService.login(loginForm.getUserId(), loginForm.getPassword());
 
         if (loginMember == null) {
             result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            model.addAttribute("loginFailMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            return "members/loginForm";
+            redirect.addFlashAttribute("loginFailMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
+            return "redirect:/member/login";
         }
 
         HttpSession session = req.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-        return "redirect:" + redirectURL;
+        return "redirect:/";
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/member/logout")
     public String logout(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
@@ -107,16 +107,18 @@ public class MemberController {
     @PostMapping("/member/id/find")
     public String findId(@Valid FindIdForm findIdForm,
                          BindingResult result,
-                         RedirectAttributes redirect,
-                         Model model) {
+                         RedirectAttributes redirect) {
+
+        if (result.hasErrors()) {
+            return "redirect:/member/id/find";
+        }
 
         Member member = loginService.findId(findIdForm.getName(), findIdForm.getEmail());
 
         if (member == null) {
             result.reject("findIdFail", "가입 된 회원이 존재하지 않습니다.");
-            model.addAttribute("findIdFailMessage", "가입 된 회원이 존재하지 않습니다.");
-            model.addAttribute("loginForm", new LoginForm());
-            return "members/loginForm";
+            redirect.addFlashAttribute("findIdFailMessage", "가입 된 회원이 존재하지 않습니다.");
+            return "redirect:/member/login";
         }
 
         redirect.addAttribute("findId", member.getUserId());
@@ -126,6 +128,7 @@ public class MemberController {
     @GetMapping("/member/id/find/show")
     public String showId(@RequestParam String findId,
                          Model model) {
+
         model.addAttribute("findId", findId);
         return "members/showFindIdForm";
     }
@@ -139,18 +142,16 @@ public class MemberController {
     @PostMapping("/member/password/find")
     public String changePasswordInfo(@Valid FindPasswordForm findPasswordForm,
                                      RedirectAttributes redirect,
-                                     BindingResult result,
-                                     Model model) {
+                                     BindingResult result) {
 
         if (result.hasErrors()) {
-            return "members/findPasswordForm";
+            return "redirect:/member/password/find";
         }
 
         if (loginService.findByUserIdAndName(findPasswordForm.getUserId(), findPasswordForm.getName()) == null) {
             result.reject("findPasswordFail", "가입 된 회원이 존재하지 않습니다.");
-            model.addAttribute("findPasswordFailMessage", "가입 된 회원이 존재하지 않습니다.");
-            model.addAttribute("loginForm", new LoginForm());
-            return "/members/loginForm";
+            redirect.addFlashAttribute("findPasswordFailMessage", "가입 된 회원이 존재하지 않습니다.");
+            return "redirect:/member/login";
         }
 
         redirect.addAttribute("userId", findPasswordForm.getUserId());
@@ -162,6 +163,7 @@ public class MemberController {
     public String changePasswordForm(@RequestParam String userId,
                                      @RequestParam String name,
                                      Model model) {
+
         ChangePasswordForm changePasswordForm = new ChangePasswordForm();
         changePasswordForm.setUserId(userId);
         changePasswordForm.setName(name);
@@ -174,21 +176,24 @@ public class MemberController {
                                  @RequestParam String name,
                                  @Valid ChangePasswordForm changePasswordForm,
                                  BindingResult result,
-                                 Model model) {
+                                 RedirectAttributes redirect) {
 
         if (result.hasErrors()) {
-            return "members/changePasswordForm";
+            redirect.addAttribute("userId", userId);
+            redirect.addAttribute("name", name);
+            return "redirect:/member/password/change";
         }
 
         if (!changePasswordForm.getPassword().equals(changePasswordForm.getCheckPassword())) {
-            model.addAttribute("changePasswordFailMessage", "비밀번호가 일치하지 않습니다.");
-            model.addAttribute("changePasswordFailForm", new ChangePasswordForm());
-            return "members/changePasswordForm";
+            result.reject("changePasswordFailMessage", "비밀번호가 일치하지 않습니다.");
+            redirect.addFlashAttribute("changePasswordFailMessage", "비밀번호가 일치하지 않습니다.");
+            redirect.addAttribute("userId", userId);
+            redirect.addAttribute("name", name);
+            return "redirect:/member/password/change";
         }
 
         loginService.changePassword(userId, name, changePasswordForm.getPassword());
-        model.addAttribute("changePasswordMessage", "비밀번호를 변경하였습니다.");
-        model.addAttribute("loginForm", new LoginForm());
-        return "members/loginForm";
+        redirect.addFlashAttribute("changePasswordMessage", "비밀번호를 변경하였습니다.");
+        return "redirect:/member/login";
     }
 }

@@ -24,6 +24,8 @@ public class MemberServiceTest {
 
     @Autowired MemberRepository memberRepository;
 
+    @Autowired BasketService basketService;
+
     @Autowired EntityManager em;
 
     @Test
@@ -41,10 +43,13 @@ public class MemberServiceTest {
                 .build();
         //when
         Long saveId = memberService.join(member);
+        basket.addMemberToBasket(member);
+        basketService.createBasket(basket);
 
         //then
         em.flush();
         assertEquals(member, memberRepository.findOne(saveId));
+        assertEquals(member.getName(), basket.getMember().getName());
     }
 
     @Test(expected = IllegalStateException.class)

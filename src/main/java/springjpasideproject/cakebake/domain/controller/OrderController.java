@@ -54,7 +54,8 @@ public class OrderController {
 
     @PostMapping( "/order/detail/orderForm")
     public String productOrderFromDetail(@RequestParam Long productId,
-                                         OrderProductForm orderProductForm, RedirectAttributes redirect) {
+                                         @Valid OrderProductForm orderProductForm,
+                                         RedirectAttributes redirect) {
 
         redirect.addAttribute("productId", productId);
         redirect.addAttribute("productCount", orderProductForm.getCount());
@@ -101,6 +102,16 @@ public class OrderController {
         List<BasketProduct> basketProducts = basketService.createBasketProduct(productId, loginMember.getId(), form.getCount());
         model.addAttribute("basketProducts", basketProducts);
         return "order/basket";
+    }
+
+    @PostMapping("/order/basket/delete")
+    public String deleteBasketProduct(@RequestParam List<Long> basketProductId) {
+
+        for (Long basketProduct : basketProductId) {
+            basketService.deleteBasketProduct(basketProduct);
+        }
+
+        return "redirect:/order/basket";
     }
 
     @GetMapping("/order/basket/orderForm")

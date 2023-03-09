@@ -22,7 +22,9 @@ public class CategoryService {
         List<Category> categoryList = categoryRepository.findByName(name);
 
         if (categoryList.isEmpty()) {
-                Category category = new Category(name);
+                Category category = Category.builder()
+                        .name(name)
+                        .build();
                 categoryRepository.save(category);
                 return category;
         }

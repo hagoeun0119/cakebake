@@ -10,7 +10,7 @@
 				<a class="side-link" href="/member/join">JOIN</a>
 			</li>
 			<li th:if="${session.loginMember != null}">
-				<form th:action="@{/logout}" method="post">
+				<form th:action="@{/member/logout}" method="post">
 					<button class="btn btn-lg" type="submit">
 						LOGOUT
 					</button>

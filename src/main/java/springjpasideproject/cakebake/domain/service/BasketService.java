@@ -48,6 +48,7 @@ public class BasketService {
         return basket.getBasketProducts();
     }
 
+    @Transactional
     public void deleteBasketProduct(Long basketProductId) {
         BasketProduct basketProduct = basketProductRepository.findOne(basketProductId);
         basketProductRepository.delete(basketProduct);

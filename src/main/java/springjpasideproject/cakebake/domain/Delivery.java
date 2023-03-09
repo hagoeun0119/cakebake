@@ -7,6 +7,8 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Delivery {
 
@@ -23,15 +25,7 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
-    @Builder(builderClassName = "createOrderBuilder", builderMethodName = "createOrderBuilder")
-    public Delivery(Order order) {
+    public void addOrderToDelivery(Order order) {
         this.order = order;
     }
-
-    @Builder(builderClassName = "createAddressAndStatusBuilder", builderMethodName = "createAddressAndStatusBuilder")
-    public Delivery(Address address, DeliveryStatus status) {
-        this.address = address;
-        this.status = status;
-    }
-
 }

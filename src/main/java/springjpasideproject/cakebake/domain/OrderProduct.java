@@ -1,15 +1,13 @@
 package springjpasideproject.cakebake.domain;
 
-
 import static jakarta.persistence.FetchType.*;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderProduct {
 
@@ -28,27 +26,6 @@ public class OrderProduct {
     private int orderPrice;
 
     private int count;
-
-    @Builder
-    public OrderProduct(Product product, int orderPrice, int count) {
-        this.product = product;
-        this.orderPrice = orderPrice;
-        this.count = count;
-    }
-
-    public static OrderProduct createOrderProduct(Product product, int orderPrice, int count) {
-        OrderProduct orderProduct = OrderProduct.builder()
-                .product(product)
-                .orderPrice(orderPrice)
-                .count(count)
-                .build();
-        product.removeStock(count);
-        return orderProduct;
-    }
-
-    public void addOrder(Order order) {
-        this.order = order;
-    }
 
     public void cancel() { getProduct().addStock(count); }
 

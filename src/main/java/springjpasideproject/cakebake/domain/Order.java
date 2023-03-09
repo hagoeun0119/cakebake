@@ -13,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
@@ -28,6 +30,7 @@ public class Order {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
+    @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
@@ -42,25 +45,7 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status; // 주문상태 [ORDER, CANCEL]
-
-    public void addOrderProduct(OrderProduct orderProduct) {
-        orderProducts.add(orderProduct);
-        orderProduct.addOrder(this);
-    }
-
-    public static Order createOrder(Member member, Delivery delivery, String receiver, String phone, String email, String comment) {
-        Order order = new Order();
-        order.member = member;
-        order.delivery = delivery;
-        order.receiver = receiver;
-        order.phone = phone;
-        order.email = email;
-        order.comment = comment;
-        order.orderDate = LocalDateTime.now();
-        order.status = OrderStatus.ORDER;
-        return order;
-    }
+    private OrderStatus status;
 
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {

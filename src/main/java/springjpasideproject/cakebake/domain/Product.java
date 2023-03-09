@@ -10,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
@@ -17,6 +19,7 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
+    @Builder.Default
     @OneToMany(mappedBy = "product",  cascade = CascadeType.ALL)
     private List<BasketProduct> basketProducts = new ArrayList<>();
 
@@ -29,16 +32,6 @@ public class Product {
     private String image;
     private int price;
     private int stockQuantity;
-
-    @Builder
-    public Product(String name, String ingredient, String image, int price, int stockQuantity, Category category) {
-        this.name = name;
-        this.ingredient = ingredient;
-        this.image = image;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-        this.category = category;
-    }
 
     public Product updateProduct(String name, String ingredient, String image, int price, int stockQuantity, Category category) {
         this.name = name;

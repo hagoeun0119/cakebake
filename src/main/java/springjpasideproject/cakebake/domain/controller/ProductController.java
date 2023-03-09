@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import springjpasideproject.cakebake.domain.Category;
-import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.Product;
 import springjpasideproject.cakebake.domain.controller.form.OrderProductForm;
 import springjpasideproject.cakebake.domain.controller.form.ProductForm;
 import springjpasideproject.cakebake.domain.service.CategoryService;
-import springjpasideproject.cakebake.domain.service.MemberService;
 import springjpasideproject.cakebake.domain.service.ProductService;
 
 import java.util.List;
@@ -24,7 +22,6 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
-    private final MemberService memberService;
 
     @GetMapping("/products/new")
     public String registerProductForm(Model model) {
@@ -61,11 +58,9 @@ public class ProductController {
                                     @PathVariable("categoryId") Long categoryId,
                                     Model model) {
 
-        Product productDetail = productService.findOne(productId);
-        List<Member> members = memberService.findMembers();
+        Product product = productService.findOne(productId);
 
-        model.addAttribute("members", members);
-        model.addAttribute("product", productDetail);
+        model.addAttribute("product", product);
         model.addAttribute("orderProductForm", new OrderProductForm());
         return "products/productDetailForm";
     }
