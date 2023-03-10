@@ -27,8 +27,9 @@
 			<th>주문일자</th>
 			<th>상품정보</th>
 			<th>수량</th>
-			<th>상품구매금액</th>
+			<th>판매가</th>
 			<th>주문처리상태</th>
+			<th>합계</th>
 			<th>취소</th>
 		</tr>
 		</thead>
@@ -51,6 +52,7 @@
 				</ul>
 			</td>
 			<td th:text="${order.status}"></td>
+			<td th:text="|KRW ${order.getTotalPrice()}|"></td>
 			<td>
 				<form id="cancel-form" method="post"
 							th:action="@{/order/delete/{orderId} (orderId=${order.id})}" th:if="${order.status.name() == 'ORDER'}">
