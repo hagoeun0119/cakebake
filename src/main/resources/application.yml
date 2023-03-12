@@ -23,3 +23,15 @@ server:
   servlet:
     session:
       tracking-modes: cookie
+
+springdoc:
+  version: '@project.version@'
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /swagger-ui
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /docs
+

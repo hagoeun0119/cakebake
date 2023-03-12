@@ -16,6 +16,10 @@
 					</button>
 				</form>
 			</li>
+			<li class="btn btn-lg" th:if="${session.loginMember != null}">
+				<!-- /member/profile -->
+				<a class="side-link" href="/#">PROFILE</a>
+			</li>
 			<li class="btn btn-lg">
 				<a class="side-link" href="/order">ORDER</a>
 			</li>
