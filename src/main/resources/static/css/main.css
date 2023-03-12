@@ -20,6 +20,10 @@ a:hover {
     color: black;
 }
 
+.fieldError {
+    border-color: #bd2130;
+}
+
 body {
     padding-top: 40px;
     font-family: 'Montserrat','Noto Sans KR',sans-serif;
