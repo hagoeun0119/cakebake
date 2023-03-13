@@ -196,4 +196,12 @@ public class MemberController {
         redirect.addFlashAttribute("changePasswordMessage", "비밀번호를 변경하였습니다.");
         return "redirect:/member/login";
     }
+
+    @GetMapping("/member/profile")
+    public String profile(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
+        model.addAttribute("loginMember", loginMember);
+        return "members/profile";
+    }
 }
