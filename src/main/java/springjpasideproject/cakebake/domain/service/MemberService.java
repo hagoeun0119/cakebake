@@ -28,6 +28,11 @@ public class MemberService {
             throw new IllegalStateException("Already exists");
         }
     }
+
+    @Transactional
+    public void update(Member loginMember, String name, String phone, String email) {
+        loginMember.updateMember(name, phone, email);
+    }
 }
 
 
