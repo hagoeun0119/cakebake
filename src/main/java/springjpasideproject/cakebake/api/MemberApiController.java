@@ -13,6 +13,9 @@ import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.SessionConstants;
 import springjpasideproject.cakebake.domain.service.MemberService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
 public class MemberApiController {
@@ -44,6 +47,29 @@ public class MemberApiController {
         Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
         memberService.update(loginMember, request.name, request.phone, request.email);
         return new UpdateMemberResponse(loginMember.getId(), loginMember.getName(), loginMember.getPhone(), loginMember.getEmail());
+    }
+
+    @GetMapping("/api/v1/member")
+    public Result memberV1() {
+
+        List<Member> findMembers = memberService.findMembers();
+        List<MemberDto> collect = findMembers.stream()
+                .map(m -> new MemberDto(m.getName()))
+                .collect(Collectors.toList());
+
+        return new Result(collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberDto {
+        private String name;
     }
 
     @Data

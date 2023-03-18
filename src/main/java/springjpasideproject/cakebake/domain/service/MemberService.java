@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import springjpasideproject.cakebake.domain.Member;
 import springjpasideproject.cakebake.domain.repository.MemberRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,10 @@ public class MemberService {
         if (!findMember.isEmpty() ) {
             throw new IllegalStateException("Already exists");
         }
+    }
+
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
     }
 
     @Transactional
