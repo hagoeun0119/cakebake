@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +24,10 @@ public class OrderController {
     private final ProductService productService;
     private final BasketService basketService;
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/order")
     public String order(HttpServletRequest request,
                         Model model) {
-
-        if (LoginService.loginCheck(request, model)) return "members/loginForm";
 
         HttpSession session = request.getSession(false);
         Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);

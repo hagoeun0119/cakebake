@@ -18,6 +18,7 @@ logging:
     org.hibernate:
       type.descriptor.sql: trace #show parameter binding
       SQL: DEBUG
+    org.springframework.security: trace
 
 server:
   servlet:
