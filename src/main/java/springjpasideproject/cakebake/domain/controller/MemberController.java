@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
+import springjpasideproject.cakebake.domain.MemberRole;
 import springjpasideproject.cakebake.domain.SessionConstants;
 import springjpasideproject.cakebake.domain.controller.form.*;
 import springjpasideproject.cakebake.domain.service.BasketService;
@@ -49,7 +50,10 @@ public class MemberController {
                 .name(memberForm.getName())
                 .phone(memberForm.getPhone())
                 .email(memberForm.getEmail())
+                .social(false)
                 .build();
+
+        member.addRole(MemberRole.USER);
 
         memberService.join(member);
         basket.addMemberToBasket(member);
@@ -58,8 +62,7 @@ public class MemberController {
     }
 
     @GetMapping("/member/login")
-    public String loginForm(Model model) {
-        model.addAttribute("loginForm", new LoginForm());
+    public String loginForm() {
         return "members/loginForm";
     }
 

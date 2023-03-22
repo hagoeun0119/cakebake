@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Builder
@@ -30,10 +33,20 @@ public class Member {
 
     private String email;
 
+    private boolean social;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<MemberRole> roleSet = new HashSet<>();
+
     public void updateMember(String name, String phone, String email) {
         this.name = name;
         this.phone = phone;
         this.email = email;
+    }
+
+    public void addRole(MemberRole memberRole) {
+        this.roleSet.add(memberRole);
     }
 
     public void changePassword(String password) {
