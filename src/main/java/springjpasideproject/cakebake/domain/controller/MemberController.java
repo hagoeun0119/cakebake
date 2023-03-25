@@ -146,7 +146,7 @@ public class MemberController {
 
     @GetMapping("/member/profile")
     public String profile(Principal principal, Model model) {
-        MemberDto memberDto = memberService.showProfile(principal.getName());
+        MemberDto memberDto = memberService.findMemberInfo(principal.getName());
         model.addAttribute("member", memberDto);
         return "members/profile";
     }

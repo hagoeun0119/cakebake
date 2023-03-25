@@ -1,18 +1,15 @@
 package springjpasideproject.cakebake.api;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
-import springjpasideproject.cakebake.domain.SessionConstants;
 import springjpasideproject.cakebake.domain.service.MemberService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,29 +21,16 @@ public class MemberApiController {
 
     @PostMapping("/api/v1/member")
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid CreateMemberRequest request) {
-
-        Basket basket = new Basket();
-        Member member = Member.builder()
-                .basket(basket)
-                .userId(request.getUserId())
-                .password(request.getPassword())
-                .name(request.getName())
-                .phone(request.getPhone())
-                .email(request.getEmail())
-                .build();
-
-        Long id = memberService.join(member);
+        Long id = memberService.join(request.getUserId(), request.getPassword(), request.getName(), request.getPhone(), request.getEmail());
         return new CreateMemberResponse(id);
     }
 
     @PutMapping("/api/v1/member")
     public UpdateMemberResponse updateMemberV1(@RequestBody @Valid UpdateMemberRequest request,
-                                               HttpServletRequest servletRequest) {
+                                               Principal principal) {
 
-        HttpSession session = servletRequest.getSession(false);
-        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
-        memberService.update(loginMember, request.name, request.phone, request.email);
-        return new UpdateMemberResponse(loginMember.getId(), loginMember.getName(), loginMember.getPhone(), loginMember.getEmail());
+        Member member = memberService.update(principal.getName(), request.name, request.phone, request.email);
+        return new UpdateMemberResponse(member.getId(), member.getName(), member.getPhone(), member.getEmail());
     }
 
     @GetMapping("/api/v1/member")

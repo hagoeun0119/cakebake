@@ -58,11 +58,13 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(Member loginMember, String name, String phone, String email) {
-        loginMember.updateMember(name, phone, email);
+    public Member update(String userId, String name, String phone, String email) {
+        Member member = memberRepository.findByUserId(userId).get();
+        member.updateMember(name, phone, email);
+        return member;
     }
 
-    public MemberDto showProfile(String userId) {
+    public MemberDto findMemberInfo(String userId) {
         Member member = memberRepository.findByUserId(userId).get();
         return new MemberDto(member.getUserId(), member.getName(), member.getPhone(), member.getEmail());
     }
