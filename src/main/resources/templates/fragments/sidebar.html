@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div th:fragment="side">
 	<div class="sidebar-side">
 		<ul>
-			<li class="btn btn-lg" th:if="${session.loginMember == null}">
+			<li class="btn btn-lg" sec:authorize="!isAuthenticated()">
 				<a class="side-link" href="/member/login">LOGIN</a>
 			</li>
-			<li class="btn btn-lg" th:if="${session.loginMember == null}">
+			<li class="btn btn-lg" sec:authorize="!isAuthenticated()">
 				<a class="side-link" href="/member/join">JOIN</a>
 			</li>
-			<li th:if="${session.loginMember != null}">
+			<li sec:authorize="isAuthenticated()">
 				<form th:action="@{/member/logout}" method="post">
 					<button class="btn btn-lg" type="submit">
 						LOGOUT
 					</button>
 				</form>
 			</li>
-			<li class="btn btn-lg" th:if="${session.loginMember != null}">
+			<li class="btn btn-lg" sec:authorize="isAuthenticated()">
 				<!-- /member/profile -->
-				<a class="side-link" href="/#">PROFILE</a>
+				<a class="side-link" href="/member/profile">PROFILE</a>
 			</li>
 			<li class="btn btn-lg">
 				<a class="side-link" href="/order">ORDER</a>

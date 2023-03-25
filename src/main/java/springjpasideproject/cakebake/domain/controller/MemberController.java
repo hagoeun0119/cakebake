@@ -1,7 +1,5 @@
 package springjpasideproject.cakebake.domain.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,22 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springjpasideproject.cakebake.domain.Basket;
 import springjpasideproject.cakebake.domain.Member;
-import springjpasideproject.cakebake.domain.MemberRole;
-import springjpasideproject.cakebake.domain.SessionConstants;
 import springjpasideproject.cakebake.domain.controller.form.*;
-import springjpasideproject.cakebake.domain.service.BasketService;
-import springjpasideproject.cakebake.domain.service.LoginService;
+import springjpasideproject.cakebake.domain.dto.MemberDto;
 import springjpasideproject.cakebake.domain.service.MemberService;
+
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-    private final BasketService basketService;
-    private final LoginService loginService;
 
     @GetMapping("/member/join")
     public String createMemberForm(Model model) {
@@ -42,63 +36,13 @@ public class MemberController {
             return "redirect:/member/join";
         }
 
-        Basket basket = new Basket();
-        Member member = Member.builder()
-                .basket(basket)
-                .userId(memberForm.getUserId())
-                .password(memberForm.getPassword())
-                .name(memberForm.getName())
-                .phone(memberForm.getPhone())
-                .email(memberForm.getEmail())
-                .social(false)
-                .build();
-
-        member.addRole(MemberRole.USER);
-
-        memberService.join(member);
-        basket.addMemberToBasket(member);
-        basketService.createBasket(basket);
+        memberService.join(memberForm.getUserId(), memberForm.getPassword(), memberForm.getName(), memberForm.getPhone(), memberForm.getEmail());
         return "redirect:/";
     }
 
     @GetMapping("/member/login")
     public String loginForm() {
         return "members/loginForm";
-    }
-
-    @PostMapping("/member/login")
-    public String login(@Valid LoginForm loginForm,
-                        BindingResult result,
-                        HttpServletRequest req,
-                        RedirectAttributes redirect) {
-
-        if (result.hasErrors()) {
-            return "redirect:/member/login";
-        }
-
-        Member loginMember = loginService.login(loginForm.getUserId(), loginForm.getPassword());
-
-        if (loginMember == null) {
-            result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            redirect.addFlashAttribute("loginFailMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            return "redirect:/member/login";
-        }
-
-        HttpSession session = req.getSession();
-        session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-        return "redirect:/";
-    }
-
-    @PostMapping("/member/logout")
-    public String logout(HttpServletRequest request) {
-
-        HttpSession session = request.getSession(false);
-
-        if (session != null) {
-            session.invalidate();
-        }
-
-        return "redirect:/";
     }
 
     @GetMapping("/member/id/find")
@@ -116,7 +60,7 @@ public class MemberController {
             return "redirect:/member/id/find";
         }
 
-        Member member = loginService.findId(findIdForm.getName(), findIdForm.getEmail());
+        Member member = memberService.findId(findIdForm.getName(), findIdForm.getEmail());
 
         if (member == null) {
             result.reject("findIdFail", "가입 된 회원이 존재하지 않습니다.");
@@ -151,7 +95,7 @@ public class MemberController {
             return "redirect:/member/password/find";
         }
 
-        if (loginService.findByUserIdAndName(findPasswordForm.getUserId(), findPasswordForm.getName()) == null) {
+        if (memberService.findByUserIdAndName(findPasswordForm.getUserId(), findPasswordForm.getName()) == null) {
             result.reject("findPasswordFail", "가입 된 회원이 존재하지 않습니다.");
             redirect.addFlashAttribute("findPasswordFailMessage", "가입 된 회원이 존재하지 않습니다.");
             return "redirect:/member/login";
@@ -195,16 +139,15 @@ public class MemberController {
             return "redirect:/member/password/change";
         }
 
-        loginService.changePassword(userId, name, changePasswordForm.getPassword());
+        memberService.changePassword(userId, name, changePasswordForm.getPassword());
         redirect.addFlashAttribute("changePasswordMessage", "비밀번호를 변경하였습니다.");
         return "redirect:/member/login";
     }
 
     @GetMapping("/member/profile")
-    public String profile(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        Member loginMember = (Member) session.getAttribute(SessionConstants.LOGIN_MEMBER);
-        model.addAttribute("loginMember", loginMember);
+    public String profile(Principal principal, Model model) {
+        MemberDto memberDto = memberService.showProfile(principal.getName());
+        model.addAttribute("member", memberDto);
         return "members/profile";
     }
 }
